@@ -1,4 +1,4 @@
-package edu.utsa.cs3443.anw198.foodtracker.providers;
+package edu.utsa.cs3443.anw198.foodtracker.providers.usda;
 
 import java.util.List;
 

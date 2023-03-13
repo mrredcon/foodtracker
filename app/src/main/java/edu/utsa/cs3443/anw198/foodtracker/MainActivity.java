@@ -1,6 +1,7 @@
 package edu.utsa.cs3443.anw198.foodtracker;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
@@ -15,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.utsa.cs3443.anw198.foodtracker.databinding.ActivityMainBinding;
+import edu.utsa.cs3443.anw198.foodtracker.ui.settings.FoodTrackerSettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                navController.navigate(R.id.nav_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

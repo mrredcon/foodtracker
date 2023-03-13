@@ -1,4 +1,4 @@
-package edu.utsa.cs3443.anw198.foodtracker.providers;
+package edu.utsa.cs3443.anw198.foodtracker.providers.usda;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

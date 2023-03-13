@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,8 +18,8 @@ import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentSearchfoodBinding;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFoodNutrient;
-import edu.utsa.cs3443.anw198.foodtracker.providers.UsdaSearchService;
-import edu.utsa.cs3443.anw198.foodtracker.providers.UsdaServiceGenerator;
+import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaSearchService;
+import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaServiceGenerator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,10 +44,10 @@ public class SearchFoodFragment extends Fragment {
 
         button.setOnClickListener(view ->
         {
-            UsdaSearchService service = UsdaServiceGenerator.createService(UsdaSearchService.class);
-            Call<UsdaSearchResult> callAsync = service.searchFoods(query.getText().toString());
+
+            /**
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            builder.setMessage("Searching USDA FoodData Central, please wait.");
+            builder.setMessage("Searching database, please wait.");
             builder.setTitle("Searching...");
             builder.setCancelable(true);
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -61,11 +60,15 @@ public class SearchFoodFragment extends Fragment {
 
             AlertDialog dialog = builder.create();
             dialog.show();
+             */
+
+            UsdaSearchService service = UsdaServiceGenerator.createService(UsdaSearchService.class);
+            Call<UsdaSearchResult> callAsync = service.searchFoods(query.getText().toString());
 
             callAsync.enqueue(new Callback<UsdaSearchResult>() {
                 @Override
                 public void onResponse(Call<UsdaSearchResult> call, Response<UsdaSearchResult> response) {
-                    dialog.dismiss();
+                    //dialog.dismiss();
                     UsdaSearchResult result = response.body();
                     StringBuilder sb = new StringBuilder();
                     for (UsdaSearchResultFood food : result.getFoods()) {
@@ -80,7 +83,7 @@ public class SearchFoodFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<UsdaSearchResult> call, Throwable throwable) {
-                    dialog.dismiss();
+                    //dialog.dismiss();
                     System.out.println(throwable);
                 }
             });
