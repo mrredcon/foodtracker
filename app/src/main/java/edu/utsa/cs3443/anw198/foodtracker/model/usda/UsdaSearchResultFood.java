@@ -5,6 +5,8 @@ public class UsdaSearchResultFood {
     private String dataType;
     private UsdaSearchResultFoodNutrient[] foodNutrients;
 
+    private long fdcId;
+
     public String getDescription() {
         return description;
     }
@@ -27,5 +29,13 @@ public class UsdaSearchResultFood {
 
     public void setFoodNutrients(UsdaSearchResultFoodNutrient[] foodNutrients) {
         this.foodNutrients = foodNutrients;
+    }
+
+    public long getFdcId() {
+        return fdcId;
+    }
+
+    public void setFdcId(long fdcId) {
+        this.fdcId = fdcId;
     }
 }

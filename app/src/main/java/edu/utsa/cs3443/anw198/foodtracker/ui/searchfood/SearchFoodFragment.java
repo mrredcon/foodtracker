@@ -9,24 +9,31 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import edu.utsa.cs3443.anw198.foodtracker.FoodSearchListener;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentSearchfoodBinding;
+import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFoodNutrient;
+import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaSearchService;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaServiceGenerator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFoodFragment extends Fragment {
+public class SearchFoodFragment extends Fragment implements FoodSearchListener {
 
     private FragmentSearchfoodBinding binding;
+    
+    private AlertDialog dialog;
+    private TextView textView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,57 +43,26 @@ public class SearchFoodFragment extends Fragment {
         binding = FragmentSearchfoodBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSearchfood;
+        textView = binding.textSearchfood;
         searchFoodViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         final Button button = binding.buttonSearchFood;
         final EditText query = binding.editTextSearchQuery;
 
+        UsdaFoodSearchProvider provider = new UsdaFoodSearchProvider();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Searching database, please wait.");
+        builder.setTitle("Searching...");
+        builder.setCancelable(true);
+        builder.setNegativeButton("Cancel", (dialogInterface, i) -> provider.cancelSearch());
+
+        dialog = builder.create();
+        
         button.setOnClickListener(view ->
         {
-
-            /**
-            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            builder.setMessage("Searching database, please wait.");
-            builder.setTitle("Searching...");
-            builder.setCancelable(true);
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    callAsync.cancel();
-                    dialogInterface.cancel();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
+            provider.searchFoods(query.getText().toString(), this);
             dialog.show();
-             */
-
-            UsdaSearchService service = UsdaServiceGenerator.createService(UsdaSearchService.class);
-            Call<UsdaSearchResult> callAsync = service.searchFoods(query.getText().toString());
-
-            callAsync.enqueue(new Callback<UsdaSearchResult>() {
-                @Override
-                public void onResponse(Call<UsdaSearchResult> call, Response<UsdaSearchResult> response) {
-                    //dialog.dismiss();
-                    UsdaSearchResult result = response.body();
-                    StringBuilder sb = new StringBuilder();
-                    for (UsdaSearchResultFood food : result.getFoods()) {
-                        sb.append(food.getDescription() + "\n");
-                        for (UsdaSearchResultFoodNutrient nutrient : food.getFoodNutrients()) {
-                            sb.append(nutrient.getNutrientName() + " " + nutrient.getValue() + "\n");
-                        }
-                        sb.append("---\n\n");
-                    }
-                    textView.setText(sb.toString());
-                }
-
-                @Override
-                public void onFailure(Call<UsdaSearchResult> call, Throwable throwable) {
-                    //dialog.dismiss();
-                    System.out.println(throwable);
-                }
-            });
         });
 
         return root;
@@ -96,5 +72,25 @@ public class SearchFoodFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResponse(FoodSearchResult[] results) {
+        dialog.dismiss();
+        StringBuilder sb = new StringBuilder();
+        for (FoodSearchResult food : results) {
+            sb.append(food.getName() + " / Calories: " + food.getCalories() +
+                    " / Fats: " + food.getFat() +
+                    " / Carbs: " + food.getCarbs() +
+                    " / Protein: " + food.getProtein() + "\n");
+        }
+
+        textView.setText(sb.toString());
+    }
+
+    @Override
+    public void onFailure(Throwable error) {
+        dialog.dismiss();
+        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
