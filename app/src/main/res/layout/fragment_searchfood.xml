@@ -6,40 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".ui.searchfood.SearchFoodFragment">
 
-    <TextView
-        android:id="@+id/text_searchfood"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/buttonSearchFood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="136dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="22dp"
         android:text="@string/menu_searchfood"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_searchfood" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
     <EditText
         android:id="@+id/editTextSearchQuery"
         android:layout_width="254dp"
-        android:layout_height="107dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="16dp"
         android:autofillHints="food"
         android:ems="10"
         android:hint="@string/menu_searchfood"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSearchFood" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:scrollbars="vertical"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSearchFood"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

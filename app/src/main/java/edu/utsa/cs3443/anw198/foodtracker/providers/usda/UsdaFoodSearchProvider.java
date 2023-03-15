@@ -7,11 +7,12 @@ import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFoodNutrient;
+import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UsdaFoodSearchProvider /*implements FoodSearchProvider*/ {
+public class UsdaFoodSearchProvider implements FoodSearchProvider {
 
     private Call<UsdaSearchResult> callAsync;
 
@@ -20,7 +21,7 @@ public class UsdaFoodSearchProvider /*implements FoodSearchProvider*/ {
     }
 
     //@Override
-    public FoodSearchResult[] searchFoods(String query, FoodSearchListener listener) {
+    public void searchFoods(String query, FoodSearchListener listener) {
         UsdaSearchService service = UsdaServiceGenerator.createService(UsdaSearchService.class);
         callAsync = service.searchFoods(query);
 
@@ -41,7 +42,7 @@ public class UsdaFoodSearchProvider /*implements FoodSearchProvider*/ {
                         fat = nutrient.getNutrientName().equals("Carbohydrate, by difference") ? nutrient.getValue() : fat;
                         carbs = nutrient.getNutrientName().equals("Total lipid (fat)") ? nutrient.getValue() : carbs;
                         protein = nutrient.getNutrientName().equals("Protein") ? nutrient.getValue() : protein;
-                        calories = nutrient.getNutrientName().equals("Energy") ? nutrient.getValue() : calories;
+                        calories = nutrient.getNutrientName().equals("Energy") && nutrient.getUnitName().equals("KCAL") ? nutrient.getValue() : calories;
                     }
 
                     results[i] = new FoodSearchResult(name, id, fat, carbs, protein, calories);
@@ -55,8 +56,6 @@ public class UsdaFoodSearchProvider /*implements FoodSearchProvider*/ {
                 System.out.println(throwable);
             }
         });
-
-        return new FoodSearchResult[0];
     }
 
     //@Override

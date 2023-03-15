@@ -4,6 +4,7 @@ public class UsdaSearchResultFoodNutrient {
     private Integer nutrientId;
     private String nutrientName;
     private Double value;
+    private String unitName;
 
     public Integer getNutrientId() {
         return nutrientId;
@@ -27,5 +28,13 @@ public class UsdaSearchResultFoodNutrient {
 
     public void setValue(Double value) {
         this.value = value;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 }

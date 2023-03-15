@@ -14,13 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import edu.utsa.cs3443.anw198.foodtracker.FoodSearchListener;
+import edu.utsa.cs3443.anw198.foodtracker.R;
+import edu.utsa.cs3443.anw198.foodtracker.adapter.FoodSearchResultAdapter;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentSearchfoodBinding;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFoodNutrient;
+import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaSearchService;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaServiceGenerator;
@@ -33,7 +37,7 @@ public class SearchFoodFragment extends Fragment implements FoodSearchListener {
     private FragmentSearchfoodBinding binding;
     
     private AlertDialog dialog;
-    private TextView textView;
+    //private TextView textView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,13 +47,13 @@ public class SearchFoodFragment extends Fragment implements FoodSearchListener {
         binding = FragmentSearchfoodBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        textView = binding.textSearchfood;
-        searchFoodViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //textView = binding.textSearchfood;
+        //searchFoodViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         final Button button = binding.buttonSearchFood;
         final EditText query = binding.editTextSearchQuery;
 
-        UsdaFoodSearchProvider provider = new UsdaFoodSearchProvider();
+        FoodSearchProvider provider = new UsdaFoodSearchProvider();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Searching database, please wait.");
@@ -77,15 +81,9 @@ public class SearchFoodFragment extends Fragment implements FoodSearchListener {
     @Override
     public void onResponse(FoodSearchResult[] results) {
         dialog.dismiss();
-        StringBuilder sb = new StringBuilder();
-        for (FoodSearchResult food : results) {
-            sb.append(food.getName() + " / Calories: " + food.getCalories() +
-                    " / Fats: " + food.getFat() +
-                    " / Carbs: " + food.getCarbs() +
-                    " / Protein: " + food.getProtein() + "\n");
-        }
-
-        textView.setText(sb.toString());
+        RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(new FoodSearchResultAdapter(getContext(), results));
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
