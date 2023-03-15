@@ -11,4 +11,6 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_searchfood">Search Food</string>
+
+    <string name="foodsearchresult_macros">Calories: %1$.0f / Fat: %2$,.1f / Carbs: %3$,.1f / Protein: %4$,.1f</string>
 </resources>

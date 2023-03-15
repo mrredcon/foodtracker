@@ -32,7 +32,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
      */
     public FoodSearchResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View adapterLayout = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.list_foodsearchresult, parent, false);
 
         return new FoodSearchResultViewHolder(adapterLayout);
     }
@@ -43,11 +43,10 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
      */
     public void onBindViewHolder(@NonNull FoodSearchResultViewHolder holder, int position) {
         FoodSearchResult result = searchResults[position];
-        holder.textView.setText(result.getName() +
-                " / Calories: " + result.getCalories() +
-                " / Fat: " + result.getFat() +
-                " / Carbs: " + result.getCarbs() +
-                " / Protein: " + result.getProtein());
+        String macroText = holder.textViewTitle.getContext().getString(R.string.foodsearchresult_macros, result.getCalories(), result.getFat(), result.getCarbs(), result.getProtein());
+
+        holder.textViewTitle.setText(result.getName());
+        holder.textViewMacros.setText(macroText);
     }
 
     @Override
@@ -59,11 +58,13 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
     }
 
     public class FoodSearchResultViewHolder extends RecyclerView.ViewHolder {
-        private TextView textView;
+        private TextView textViewTitle;
+        private TextView textViewMacros;
 
         public FoodSearchResultViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.item_title);
+            textViewTitle = itemView.findViewById(R.id.foodsearchresult_title);
+            textViewMacros = itemView.findViewById(R.id.foodsearchresult_macros);
         }
     }
 }

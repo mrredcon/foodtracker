@@ -1,14 +1,12 @@
 package edu.utsa.cs3443.anw198.foodtracker.ui.searchfood;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,16 +19,8 @@ import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.adapter.FoodSearchResultAdapter;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentSearchfoodBinding;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
-import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResult;
-import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFood;
-import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFoodNutrient;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodSearchProvider;
-import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaSearchService;
-import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaServiceGenerator;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SearchFoodFragment extends Fragment implements FoodSearchListener {
 
