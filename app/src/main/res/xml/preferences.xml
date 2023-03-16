@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
@@ -7,8 +7,8 @@
         app:title="Enable message notifications"/>
 
     <Preference
-        app:key="feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features"/>
+        app:key="clear-suggestions"
+        app:title="Clear search suggestions"
+        app:summary="Permanently delete all previous search queries"/>
 
 </PreferenceScreen>

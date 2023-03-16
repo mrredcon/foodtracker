@@ -13,15 +13,22 @@
             android:id="@+id/foodsearchresult_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textAppearance="?attr/textAppearanceHeadline6" />
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="2dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/foodsearchresult_macros"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textAppearance="?attr/textAppearanceHeadline6" />
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="10sp" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
