@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.adapter.FoodSearchResultAdapter;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentSearchfoodBinding;
+import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchSuggestionProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodSearchProvider;
@@ -30,6 +32,7 @@ public class SearchFoodFragment extends Fragment {
     
     private AlertDialog dialog;
     private FoodSearchProvider provider;
+    private FoodSearchResult[] results;
     //private TextView textView;
     //private Menu menu;
 
@@ -94,6 +97,7 @@ public class SearchFoodFragment extends Fragment {
             RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
             recyclerView.setAdapter(new FoodSearchResultAdapter(getContext(), searchResults));
             recyclerView.setHasFixedSize(true);
+            results = searchResults;
         });
 
         searchFoodViewModel.getErrorMessage().observe(this, errorMessage -> {
@@ -101,6 +105,11 @@ public class SearchFoodFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

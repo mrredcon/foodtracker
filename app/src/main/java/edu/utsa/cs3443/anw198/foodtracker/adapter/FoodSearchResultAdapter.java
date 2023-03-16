@@ -1,6 +1,7 @@
 package edu.utsa.cs3443.anw198.foodtracker.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
 
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
@@ -47,6 +50,11 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
 
         holder.textViewTitle.setText(result.getName());
         holder.textViewMacros.setText(macroText);
+
+        holder.cardView.setOnClickListener(c -> {
+            //Toast.makeText(holder.cardView.getContext(), result.getCalories().intValue(), Toast.LENGTH_SHORT);
+            Log.e("Nom", "I was clicked: " + result.getCalories());
+        });
     }
 
     @Override
@@ -60,11 +68,13 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
     public class FoodSearchResultViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewMacros;
+        private MaterialCardView cardView;
 
         public FoodSearchResultViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.foodsearchresult_title);
             textViewMacros = itemView.findViewById(R.id.foodsearchresult_macros);
+            cardView = itemView.findViewById(R.id.foodSearchResult_card);
         }
     }
 }
