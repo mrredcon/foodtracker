@@ -1,11 +1,14 @@
 package edu.utsa.cs3443.anw198.foodtracker;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -78,11 +81,30 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                Cursor cursor = (Cursor) searchView.getSuggestionsAdapter().getItem(
+                        position);
+                @SuppressLint("Range") String suggestion = cursor.getString(cursor
+                        .getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+
+                handleSearch(suggestion);
+                hideKeyboard();
+                return true;
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                FoodSearchProvider provider = new UsdaFoodSearchProvider();
-                provider.searchFoods(query, searchFoodViewModel);
+                handleSearch(query);
+                hideKeyboard();
                 return true;
             }
 
@@ -92,6 +114,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    private void handleSearch(String query) {
+        FoodSearchProvider provider = new UsdaFoodSearchProvider();
+        searchFoodViewModel.beginSearch();
+        provider.searchFoods(query, searchFoodViewModel);
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @Override

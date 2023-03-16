@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,7 +78,17 @@ public class SearchFoodFragment extends Fragment {
 
         dialog = builder.create();
 
-        // TODO: bring back the dialog
+        searchFoodViewModel.getSearchStatus().observe(this, searchStatus -> {
+            switch (searchStatus) {
+                case SEARCH_IN_PROGRESS:
+                    dialog.show();
+                    break;
+                case SEARCH_FAILURE:
+                case SEARCH_SUCCESS:
+                    dialog.dismiss();
+                    break;
+            }
+        });
 
         searchFoodViewModel.getSearchResults().observe(this, searchResults -> {
             RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
