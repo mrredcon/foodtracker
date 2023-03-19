@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,20 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.adapter.FoodSearchResultAdapter;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentSearchfoodBinding;
-import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchSuggestionProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodSearchProvider;
 
 public class SearchFoodFragment extends Fragment {
-
     private FragmentSearchfoodBinding binding;
-    
     private AlertDialog dialog;
     private FoodSearchProvider provider;
-    private FoodSearchResult[] results;
-    //private TextView textView;
-    //private Menu menu;
 
     @Override
     public void onCreate(Bundle onCreateInstance) {
@@ -46,9 +39,6 @@ public class SearchFoodFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.action_search).setVisible(true);
-
-        //FoodSearchListener listener = this;
-        //SearchFoodViewModel listener = new SearchFoodViewModel();
 
         // Set up search suggestions
         Intent intent  = getActivity().getIntent();
@@ -63,16 +53,18 @@ public class SearchFoodFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SearchFoodViewModel searchFoodViewModel = new ViewModelProvider(getActivity()).get(SearchFoodViewModel.class);
-
         binding = FragmentSearchfoodBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //textView = binding.textSearchfood;
-        //searchFoodViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         provider = new UsdaFoodSearchProvider();
 
+        setupAlertDialog();
+        setupViewModel();
+
+        return root;
+    }
+
+    private void setupAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Searching database, please wait.");
         builder.setTitle("Searching...");
@@ -80,14 +72,18 @@ public class SearchFoodFragment extends Fragment {
         builder.setNegativeButton("Cancel", (dialogInterface, i) -> provider.cancelSearch());
 
         dialog = builder.create();
+    }
+
+    private void setupViewModel() {
+        SearchFoodViewModel searchFoodViewModel = new ViewModelProvider(getActivity()).get(SearchFoodViewModel.class);
 
         searchFoodViewModel.getSearchStatus().observe(this, searchStatus -> {
             switch (searchStatus) {
-                case SEARCH_IN_PROGRESS:
+                case IN_PROGRESS:
                     dialog.show();
                     break;
-                case SEARCH_FAILURE:
-                case SEARCH_SUCCESS:
+                case FAILURE:
+                case SUCCESS:
                     dialog.dismiss();
                     break;
             }
@@ -95,21 +91,13 @@ public class SearchFoodFragment extends Fragment {
 
         searchFoodViewModel.getSearchResults().observe(this, searchResults -> {
             RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
-            recyclerView.setAdapter(new FoodSearchResultAdapter(getContext(), searchResults));
+            recyclerView.setAdapter(new FoodSearchResultAdapter(getActivity(), searchResults));
             recyclerView.setHasFixedSize(true);
-            results = searchResults;
         });
 
         searchFoodViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
         });
-
-        return root;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

@@ -63,13 +63,6 @@ public class MainActivity extends AppCompatActivity {
         // Create a ViewModel the first time the system calls an activity's onCreate() method.
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         searchFoodViewModel = new ViewModelProvider(this).get(SearchFoodViewModel.class);
-
-        navController.navigate(R.id.nav_diary);
-    }
-
-    private void doMySearch(String query) {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        navController.navigate(R.id.nav_searchfood);
     }
 
     @Override

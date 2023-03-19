@@ -2,12 +2,14 @@ package edu.utsa.cs3443.anw198.foodtracker.model;
 
 public class FoodSearchResult {
     private String name;
+    private String brand;
     private String id;
     private Double fat, carbs, protein, calories;
 
 
-    public FoodSearchResult(String name, String id, Double fat, Double carbs, Double protein, Double calories) {
+    public FoodSearchResult(String name, String brand, String id, Double fat, Double carbs, Double protein, Double calories) {
         this.name = name;
+        this.brand = brand;
         this.id = id;
         this.fat = fat;
         this.carbs = carbs;
@@ -37,5 +39,9 @@ public class FoodSearchResult {
 
     public Double getCalories() {
         return calories;
+    }
+
+    public String getBrand() {
+        return brand;
     }
 }

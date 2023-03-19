@@ -1,8 +1,6 @@
 package edu.utsa.cs3443.anw198.foodtracker.providers.usda;
 
-import android.app.AlertDialog;
-
-import edu.utsa.cs3443.anw198.foodtracker.FoodSearchListener;
+import edu.utsa.cs3443.anw198.foodtracker.APIListener;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResultFood;
@@ -21,8 +19,8 @@ public class UsdaFoodSearchProvider implements FoodSearchProvider {
     }
 
     //@Override
-    public void searchFoods(String query, FoodSearchListener listener) {
-        UsdaSearchService service = UsdaServiceGenerator.createService(UsdaSearchService.class);
+    public void searchFoods(String query, APIListener<FoodSearchResult[]> listener) {
+        UsdaService service = UsdaServiceGenerator.createService(UsdaService.class);
         callAsync = service.searchFoods(query);
 
         callAsync.enqueue(new Callback<UsdaSearchResult>() {
@@ -35,6 +33,8 @@ public class UsdaFoodSearchProvider implements FoodSearchProvider {
                 for (int i = 0; i < usdaResults.length; i++) {
                     UsdaSearchResultFood usdaFood = usdaResults[i];
                     String name = usdaFood.getDescription();
+                    String brand = usdaFood.getBrandName();
+
                     String id = String.valueOf(usdaFood.getFdcId());
                     Double fat = null, carbs = null, protein = null, calories = null;
 
@@ -45,7 +45,7 @@ public class UsdaFoodSearchProvider implements FoodSearchProvider {
                         calories = nutrient.getNutrientName().equals("Energy") && nutrient.getUnitName().equals("KCAL") ? nutrient.getValue() : calories;
                     }
 
-                    results[i] = new FoodSearchResult(name, id, fat, carbs, protein, calories);
+                    results[i] = new FoodSearchResult(name, brand, id, fat, carbs, protein, calories);
                 }
                 listener.onResponse(results);
             }
@@ -53,7 +53,6 @@ public class UsdaFoodSearchProvider implements FoodSearchProvider {
             @Override
             public void onFailure(Call<UsdaSearchResult> call, Throwable throwable) {
                 listener.onFailure(throwable);
-                System.out.println(throwable);
             }
         });
     }

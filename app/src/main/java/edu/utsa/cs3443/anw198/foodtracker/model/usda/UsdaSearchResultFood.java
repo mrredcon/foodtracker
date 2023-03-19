@@ -7,6 +7,9 @@ public class UsdaSearchResultFood {
 
     private long fdcId;
 
+    private String brandOwner;
+    private String brandName;
+
     public String getDescription() {
         return description;
     }
@@ -37,5 +40,21 @@ public class UsdaSearchResultFood {
 
     public void setFdcId(long fdcId) {
         this.fdcId = fdcId;
+    }
+
+    public String getBrandOwner() {
+        return brandOwner;
+    }
+
+    public void setBrandOwner(String brandOwner) {
+        this.brandOwner = brandOwner;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 }

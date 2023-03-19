@@ -14,4 +14,82 @@
     <string name="menu_diary">Diary</string>
 
     <string name="foodsearchresult_macros">Calories: %1$.0f / Fat: %2$,.1f / Carbs: %3$,.1f / Protein: %4$,.1f</string>
+
+    <string name="unit_grams">Grams</string>
+    <string name="unit_micrograms">Micrograms</string>
+    <string name="unit_milligrams">Milligrams</string>
+    <string name="unit_kilograms">Kilograms</string>
+    <string name="unit_ounces">Ounces</string>
+    <string name="unit_pounds">Pounds</string>
+
+    <string name="unit_grams_abv">g</string>
+    <string name="unit_micrograms_abv">mcg</string>
+    <string name="unit_milligrams_abv">mg</string>
+    <string name="unit_kilograms_abv">kg</string>
+    <string name="unit_ounces_abv">oz</string>
+    <string name="unit_pounds_abv">lbs</string>
+
+    <string name="unit_liters">Liters</string>
+    <string name="unit_milliliters">Milliliters</string>
+    <string name="unit_microliters">Microliters</string>
+    <string name="unit_teaspoons">Teaspoons</string>
+    <string name="unit_tablespoons">Tablespoons</string>
+    <string name="unit_shots">Shots</string>
+    <string name="unit_fluid_ounces">Fluid Ounces</string>
+    <string name="unit_cups">Cups</string>
+    <string name="unit_pints">Pints</string>
+    <string name="unit_quarts">Quarts</string>
+    <string name="unit_gallons">Gallons</string>
+
+    <string name="unit_liters_abv">L</string>
+    <string name="unit_milliliters_abv">mL</string>
+    <string name="unit_microliters_abv">μL</string>
+    <string name="unit_teaspoons_abv">tsp</string>
+    <string name="unit_tablespoons_abv">tbsp</string>
+    <string name="unit_shots_abv">jig</string>
+    <string name="unit_fluid_ounces_abv">fl oz</string>
+    <string name="unit_cups_abv">c</string>
+    <string name="unit_pints_abv">pt</string>
+    <string name="unit_quarts_abv">qt</string>
+    <string name="unit_gallons_abv">gal</string>
+
+    <string name="nutrient_calorie">Calories</string>
+    <string name="nutrient_fat">Fat</string>
+    <string name="nutrient_fat_saturated">Saturated fat</string>
+    <string name="nutrient_fat_trans">Trans fat</string>
+    <string name="nutrient_carbohydrates">Carbohydrates</string>
+    <string name="nutrient_fiber">Fiber</string>
+    <string name="nutrient_sugar">Sugar</string>
+    <string name="nutrient_sugar_added">Added sugar</string>
+    <string name="nutrient_sugar_alcohol">Sugar alcohol</string>
+    <string name="nutrient_ethyl_alcohol">Ethyl alcohol</string>
+    <string name="nutrient_protein">Protein</string>
+    <string name="nutrient_calcium">Calcium</string>
+    <string name="nutrient_cholesterol">Cholesterol</string>
+    <string name="nutrient_sodium">Sodium</string>
+    <string name="nutrient_iron">Iron</string>
+    <string name="nutrient_magnesium">Magnesium</string>
+    <string name="nutrient_phosphorus">Phosphorus</string>
+    <string name="nutrient_potassium">Potassium</string>
+    <string name="nutrient_zinc">Zinc</string>
+    <string name="nutrient_copper">Copper</string>
+    <string name="nutrient_thiamin">Thiamin</string>
+    <string name="nutrient_riboflavin">Riboflavin</string>
+    <string name="nutrient_niacin">Niacin</string>
+    <string name="nutrient_choline">Choline</string>
+    <string name="nutrient_theobromine">Theobromine</string>
+    <string name="nutrient_selenium">Selenium</string>
+    <string name="nutrient_retinol">Retinol (Vitamin A1)</string>
+    <string name="nutrient_carotene_alpha">Carotene, alpha</string>
+    <string name="nutrient_carotene_beta">Carotene, beta</string>
+    <string name="nutrient_folic_acid">Folic Acid</string>
+    <string name="nutrient_folate">Folate</string>
+    <string name="nutrient_caffeine">Caffeine</string>
+    <string name="nutrient_vitamin_a">Vitamin A</string>
+    <string name="nutrient_vitamin_b6">Vitamin B6</string>
+    <string name="nutrient_vitamin_b12">Vitamin B12</string>
+    <string name="nutrient_vitamin_c">Vitamin C</string>
+    <string name="nutrient_vitamin_d">Vitamin D</string>
+    <string name="nutrient_vitamin_e">Vitamin E</string>
+    <string name="nutrient_vitamin_k">Vitamin K</string>
 </resources>
