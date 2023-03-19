@@ -1,7 +1,5 @@
 package edu.utsa.cs3443.anw198.foodtracker.model;
 
-import android.util.Log;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +21,7 @@ public class Food {
     private Map<Nutrient, Double> nutrients;
 
     public static final Map<Nutrient, MassUnit> NUTRIENT_UNITS = createNutrientUnits();
+    public static final double DEFAULT_QUANTITY = 100.0;
 
     public Food() {
         this.nutrients = new HashMap<>();
@@ -81,7 +80,6 @@ public class Food {
     }
 
     public void setNutrient(Nutrient nutrient, MassUnit inputUnit, double inputAmount) {
-        Log.i("Nom", "Nutrient: " + nutrient + " inputUnit: " + inputUnit + " inputAmount: " + inputAmount);
         MassUnit destinationUnit = NUTRIENT_UNITS.get(nutrient);
         double converted = inputUnit.convertTo(destinationUnit, inputAmount);
         nutrients.put(nutrient, converted);

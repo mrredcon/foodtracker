@@ -4,7 +4,7 @@ import edu.utsa.cs3443.anw198.foodtracker.R;
 
 public enum VolumeUnit implements Unit {
     LITERS(1.0, R.string.unit_liters, R.string.unit_liters_abv),
-    MILLILITERS(1.0e-3, R.string.unit_milliliters, R.string.unit_milligrams_abv),
+    MILLILITERS(1.0e-3, R.string.unit_milliliters, R.string.unit_milliliters_abv),
     MICROLITERS(1.0e-6, R.string.unit_microliters, R.string.unit_microliters_abv),
     TEASPOONS(0.00492892159375, R.string.unit_teaspoons, R.string.unit_teaspoons_abv),
     TABLESPOONS(0.0147867647813, R.string.unit_tablespoons, R.string.unit_tablespoons_abv),

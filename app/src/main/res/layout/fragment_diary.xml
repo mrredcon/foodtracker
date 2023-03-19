@@ -13,8 +13,8 @@
         android:id="@+id/textViewSaveToDiary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="1500px"
-        android:padding="16px"
+        android:maxHeight="400dp"
+        android:padding="16dp"
         android:scrollbars="horizontal|vertical"
         android:text="hello" />
 
@@ -24,13 +24,24 @@
         android:layout_height="wrap_content"
         android:text="Save" />
 
+    <Spinner
+        android:id="@+id/spinnerServingSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textViewGrams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
     <EditText
-        android:id="@+id/editServings"
+        android:id="@+id/editTextQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8px"
         android:ems="10"
-        android:hint="grams consumed"
-        android:inputType="textPersonName" />
+        android:hint="amount consumed"
+        android:inputType="none|numberDecimal" />
 
 </LinearLayout>

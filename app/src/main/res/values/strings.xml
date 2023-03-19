@@ -23,7 +23,7 @@
     <string name="unit_pounds">Pounds</string>
 
     <string name="unit_grams_abv">g</string>
-    <string name="unit_micrograms_abv">mcg</string>
+    <string name="unit_micrograms_abv">μg</string>
     <string name="unit_milligrams_abv">mg</string>
     <string name="unit_kilograms_abv">kg</string>
     <string name="unit_ounces_abv">oz</string>
