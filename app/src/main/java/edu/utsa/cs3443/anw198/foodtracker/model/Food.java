@@ -1,13 +1,18 @@
 package edu.utsa.cs3443.anw198.foodtracker.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.utsa.cs3443.anw198.foodtracker.units.MassUnit;
 import edu.utsa.cs3443.anw198.foodtracker.units.Unit;
-
+@Entity
 public class Food {
+    @PrimaryKey
+    public int id;
     private String name;
 
     // Name of serving size (e.g. "1 cup") mapped to grams
