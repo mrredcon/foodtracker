@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import edu.utsa.cs3443.anw198.foodtracker.databinding.ActivityMainBinding;
+import edu.utsa.cs3443.anw198.foodtracker.providers.DbProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.ui.searchfood.SearchFoodViewModel;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        DbProvider.createInstance(this);
 
         // Create a ViewModel the first time the system calls an activity's onCreate() method.
         // Re-created activities receive the same MyViewModel instance created by the first activity.

@@ -2,16 +2,24 @@ package edu.utsa.cs3443.anw198.foodtracker.providers.usda;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import edu.utsa.cs3443.anw198.foodtracker.APIListener;
+import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
+import edu.utsa.cs3443.anw198.foodtracker.model.FoodDao;
 import edu.utsa.cs3443.anw198.foodtracker.model.Nutrient;
+import edu.utsa.cs3443.anw198.foodtracker.model.NutrientType;
+import edu.utsa.cs3443.anw198.foodtracker.model.ServingSize;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaFoodNutrient;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaFoodPortion;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaNutrient;
+import edu.utsa.cs3443.anw198.foodtracker.providers.DbProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
 import edu.utsa.cs3443.anw198.foodtracker.units.MassUnit;
 import edu.utsa.cs3443.anw198.foodtracker.units.VolumeUnit;
@@ -22,45 +30,45 @@ import retrofit2.Response;
 public class UsdaFoodProvider implements FoodProvider {
     private Call<UsdaFood> callAsync;
 
-    private static final Map<Integer, Nutrient> fdcIdToNutrient = createFdcNutrientIds();
+    private static final Map<Integer, NutrientType> fdcIdToNutrient = createFdcNutrientIds();
 
-    private static Map<Integer, Nutrient> createFdcNutrientIds() {
-        HashMap<Integer, Nutrient> map = new HashMap<>();
-        map.put(1003, Nutrient.PROTEIN);
-        map.put(1004, Nutrient.FAT);
-        map.put(1005, Nutrient.CARBOHYDRATES);
+    private static Map<Integer, NutrientType> createFdcNutrientIds() {
+        HashMap<Integer, NutrientType> map = new HashMap<>();
+        map.put(1003, NutrientType.PROTEIN);
+        map.put(1004, NutrientType.FAT);
+        map.put(1005, NutrientType.CARBOHYDRATES);
 
-        map.put(1018, Nutrient.ETHYL_ALCOHOL);
-        map.put(1057, Nutrient.CAFFEINE);
-        map.put(1058, Nutrient.THEOBROMINE);
+        map.put(1018, NutrientType.ETHYL_ALCOHOL);
+        map.put(1057, NutrientType.CAFFEINE);
+        map.put(1058, NutrientType.THEOBROMINE);
         // "Sugars, total" intentionally has two FDC IDs
-        map.put(2000, Nutrient.SUGAR);
-        map.put(1063, Nutrient.SUGAR);
-        map.put(1079, Nutrient.FIBER);
-        map.put(1087, Nutrient.CALCIUM);
-        map.put(1089, Nutrient.IRON);
-        map.put(1090, Nutrient.MAGNESIUM);
-        map.put(1091, Nutrient.PHOSPHORUS);
-        map.put(1093, Nutrient.SODIUM);
-        map.put(1095, Nutrient.ZINC);
-        map.put(1098, Nutrient.COPPER);
-        map.put(1103, Nutrient.SELENIUM);
-        map.put(1105, Nutrient.RETINOL);
-        map.put(1106, Nutrient.VITAMIN_A);
-        map.put(1107, Nutrient.CAROTENE_BETA);
-        map.put(1108, Nutrient.CAROTENE_ALPHA);
-        map.put(1109, Nutrient.VITAMIN_E);
-        map.put(1114, Nutrient.VITAMIN_D);
-        map.put(1162, Nutrient.VITAMIN_C);
-        map.put(1165, Nutrient.THIAMIN);
-        map.put(1166, Nutrient.RIBOFLAVIN);
-        map.put(1175, Nutrient.VITAMIN_B6);
-        map.put(1177, Nutrient.FOLATE);
-        map.put(1178, Nutrient.VITAMIN_B12);
-        map.put(1180, Nutrient.CHOLINE);
-        map.put(1185, Nutrient.VITAMIN_K);
-        map.put(1186, Nutrient.FOLIC_ACID);
-        map.put(1253, Nutrient.CHOLESTEROL);
+        map.put(2000, NutrientType.SUGAR);
+        map.put(1063, NutrientType.SUGAR);
+        map.put(1079, NutrientType.FIBER);
+        map.put(1087, NutrientType.CALCIUM);
+        map.put(1089, NutrientType.IRON);
+        map.put(1090, NutrientType.MAGNESIUM);
+        map.put(1091, NutrientType.PHOSPHORUS);
+        map.put(1093, NutrientType.SODIUM);
+        map.put(1095, NutrientType.ZINC);
+        map.put(1098, NutrientType.COPPER);
+        map.put(1103, NutrientType.SELENIUM);
+        map.put(1105, NutrientType.RETINOL);
+        map.put(1106, NutrientType.VITAMIN_A);
+        map.put(1107, NutrientType.CAROTENE_BETA);
+        map.put(1108, NutrientType.CAROTENE_ALPHA);
+        map.put(1109, NutrientType.VITAMIN_E);
+        map.put(1114, NutrientType.VITAMIN_D);
+        map.put(1162, NutrientType.VITAMIN_C);
+        map.put(1165, NutrientType.THIAMIN);
+        map.put(1166, NutrientType.RIBOFLAVIN);
+        map.put(1175, NutrientType.VITAMIN_B6);
+        map.put(1177, NutrientType.FOLATE);
+        map.put(1178, NutrientType.VITAMIN_B12);
+        map.put(1180, NutrientType.CHOLINE);
+        map.put(1185, NutrientType.VITAMIN_K);
+        map.put(1186, NutrientType.FOLIC_ACID);
+        map.put(1253, NutrientType.CHOLESTEROL);
 
         return map;
     }
@@ -73,17 +81,17 @@ public class UsdaFoodProvider implements FoodProvider {
         switch(abbreviation) {
             case "g": return MassUnit.GRAMS;
             case "mg": return MassUnit.MILLIGRAMS;
-            // Micro Sign (U+00B5)
-            case "µg":
-            // Greek Small Letter Mu (U+03BC)
-            case "μg": return MassUnit.MICROGRAMS;
+            // µg: Micro Sign (U+00B5)
+            case "\u00B5g":
+            // μg: Greek Small Letter Mu (U+03BC)
+            case "\u03BCg": return MassUnit.MICROGRAMS;
         }
         //Log.e("Nom", "Returning null for input: " + abbreviation);
-        return null;
+        throw new RuntimeException("UsdaFoodProvider: Failed to convert unit abbreviation!");
     }
 
     @Override
-    public void loadFood(String id, APIListener<Food> listener) {
+    public void loadFood(String id, APIListener<CompleteFood> listener) {
         UsdaService service = UsdaServiceGenerator.createService(UsdaService.class);
         callAsync = service.loadFood(id);
 
@@ -91,16 +99,17 @@ public class UsdaFoodProvider implements FoodProvider {
             @Override
             public void onResponse(@NonNull Call<UsdaFood> call, @NonNull Response<UsdaFood> response) {
                 UsdaFood usdaFood = response.body();
-                Food result = new Food();
-                result.setName(usdaFood.getDescription());
+                Food food;
 
-                if (usdaFood.getDataType().equals("Branded") &&
-                        usdaFood.getServingSizeUnit().equals("ml")) {
-                    result.setBaseUnit(VolumeUnit.MILLILITERS);
+                if (usdaFood.getDataType().equals("Branded") && usdaFood.getServingSizeUnit().equals("ml")) {
+                    food = new Food(true);
                 } else {
-                    result.setBaseUnit(MassUnit.GRAMS);
+                    food = new Food(false);
                 }
 
+                food.setName(usdaFood.getDescription());
+
+                List<Nutrient> nutrients = new ArrayList<>();
                 for (UsdaFoodNutrient foodNutrient : usdaFood.getFoodNutrients()) {
                     UsdaNutrient usdaNutrient = foodNutrient.getNutrient();
                     int fdcNutrientId = usdaNutrient.getId();
@@ -108,42 +117,60 @@ public class UsdaFoodProvider implements FoodProvider {
                     // Special case for "Energy" nutrient
                     if ((fdcNutrientId == 1008 || fdcNutrientId == 2047) &&
                             usdaNutrient.getUnitName().equals("kcal")) {
-                        result.setCalories(foodNutrient.getAmount());
+                        food.setCalories(foodNutrient.getAmount());
                     } else {
-                        Nutrient nutrient = fdcIdToNutrient.get(fdcNutrientId);
+                        NutrientType nutrientType = fdcIdToNutrient.get(fdcNutrientId);
                         // Nutrient exists in USDA database but not our model, ignore it
-                        if (nutrient == null) continue;
+                        if (nutrientType == null) continue;
 
                         MassUnit massUnit = abbreviationToMassUnit(usdaNutrient.getUnitName());
-                        result.setNutrient(nutrient, massUnit, foodNutrient.getAmount());
+                        nutrients.add(new Nutrient(nutrientType, massUnit, foodNutrient.getAmount()));
                     }
                 }
 
-                Map<String, Double> servingSizes = result.getServingSizes();
+                List<ServingSize> servingSizes = new ArrayList<>();
                 if (usdaFood.getDataType().equals("Branded")) {
                     String servingTitle = usdaFood.getHouseholdServingFullText();
                     if (servingTitle == null)
                         servingTitle = "Manufacturer set size";
 
-                    servingSizes.put(servingTitle, usdaFood.getServingSize());
+                    servingSizes.add(new ServingSize(servingTitle, usdaFood.getServingSize()));
                 } else {
                     for (UsdaFoodPortion portion : usdaFood.getFoodPortions()) {
                         String portionDescription = portion.getPortionDescription();
 
                         if (portionDescription != null) {
-                            servingSizes.put(portionDescription, portion.getGramWeight());
+                            servingSizes.add(new ServingSize(portionDescription, portion.getGramWeight()));
                         } else {
-                            String servingSizeName = String.format("%.1f", portion.getAmount()) + " " + portion.getModifier();
-                            servingSizes.put(servingSizeName, portion.getGramWeight());
+                            String servingSizeName = String.format(Locale.getDefault(), "%.1f", portion.getAmount()) + " " + portion.getModifier();
+                            servingSizes.add(new ServingSize(servingSizeName, portion.getGramWeight()));
                         }
                     }
                 }
 
-                listener.onResponse(result);
+                Thread thread = new Thread() {
+                    public void run() {
+                        FoodDao dao = DbProvider.getInstance().foodDao();
+                        long foodId = dao.insertFood(food);
+
+                        for (ServingSize servingSize : servingSizes)
+                            servingSize.foodId = foodId;
+
+                        dao.insertServingSizes(servingSizes);
+
+                        for (Nutrient nutrient : nutrients)
+                            nutrient.foodId = foodId;
+
+                        dao.insertNutrients(nutrients);
+                    }
+                };
+                thread.start();
+
+                listener.onResponse(new CompleteFood(food, servingSizes, nutrients));
             }
 
             @Override
-            public void onFailure(Call<UsdaFood> call, Throwable throwable) {
+            public void onFailure(@NonNull Call<UsdaFood> call, @NonNull Throwable throwable) {
                 listener.onFailure(throwable);
             }
         });

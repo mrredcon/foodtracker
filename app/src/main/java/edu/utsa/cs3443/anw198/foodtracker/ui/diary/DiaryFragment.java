@@ -22,11 +22,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.Locale;
 
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentDiaryBinding;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 import edu.utsa.cs3443.anw198.foodtracker.model.Nutrient;
+import edu.utsa.cs3443.anw198.foodtracker.model.NutrientType;
+import edu.utsa.cs3443.anw198.foodtracker.model.ServingSize;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodProvider;
 
@@ -35,6 +39,8 @@ public class DiaryFragment extends Fragment {
     private AlertDialog dialog;
     private FoodProvider provider;
     private Food food;
+    private List<ServingSize> servingSizes;
+    private List<Nutrient> nutrients;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -93,7 +99,7 @@ public class DiaryFragment extends Fragment {
                 if (quantityString.equals("")) return;
 
                 double quantityInput = Double.parseDouble(quantityString);
-                Double gramsInServing = food.getServingSizes().get(key);
+                Double gramsInServing = getServingSizeAmount(key);
                 if (gramsInServing == null) return;
 
                 double baseUnitCalc = gramsInServing * quantityInput;
@@ -103,6 +109,16 @@ public class DiaryFragment extends Fragment {
                 gramsDisplay.setText(baseUnitCalc + " " + baseUnitAbv);
             }
         });
+    }
+
+    private Double getServingSizeAmount(String name) {
+        for (ServingSize servingSize : servingSizes) {
+            if (servingSize.name.equals(name)) {
+                return servingSize.amount;
+            }
+        }
+
+        return null;
     }
 
     private void setupAlertDialog() {
@@ -131,7 +147,10 @@ public class DiaryFragment extends Fragment {
         });
 
         diaryViewModel.getFood().observe(this, foodResult -> {
-            this.food = foodResult;
+            this.food = foodResult.food;
+            this.servingSizes = foodResult.servingSizes;
+            this.nutrients = foodResult.nutrients;
+
             setupFoodServingSizes(); // Only do this once to avoid infinite loop
             updateFoodInfo(Food.DEFAULT_QUANTITY);
         });
@@ -142,12 +161,21 @@ public class DiaryFragment extends Fragment {
     }
 
     void setupFoodServingSizes() {
-        food.getServingSizes().put(getContext().getString(food.getBaseUnit().getTitleResource()), 1.0);
+        servingSizes.add(new ServingSize(getContext().getString(food.getBaseUnit().getTitleResource()), 1.0, 0));
         ((EditText)getView().findViewById(R.id.editTextQuantity)).setText(String.valueOf(Food.DEFAULT_QUANTITY));
         Spinner dropdown = getView().findViewById(R.id.spinnerServingSize);
-        String[] choices = food.getServingSizes().keySet().toArray(new String[0]);
+        String[] choices = getServingSizeNames();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, choices);
         dropdown.setAdapter(adapter);
+    }
+
+    private String[] getServingSizeNames() {
+        String[] names = new String[servingSizes.size()];
+        for (int i = 0; i < names.length; i++) {
+            names[i] = servingSizes.get(i).name;
+        }
+
+        return names;
     }
 
     private void updateFoodInfo(double quantity) {
@@ -160,17 +188,18 @@ public class DiaryFragment extends Fragment {
         StringBuilder sb = new StringBuilder();
         sb.append("Name: ").append(food.getName()).append("\n");
         sb.append("Calories: ");
-        sb.append(String.format("%.1f", food.getCalories() * multiplier)).append("\n");
+        sb.append(String.format(Locale.getDefault(), "%.1f", food.getCalories() * multiplier)).append("\n");
 
         sb.append("\nNutrients:\n");
-        for (Nutrient nutrient : food.getNutrients().keySet()) {
-            String nutrientName = getContext().getText(nutrient.stringResource).toString();
+        for (Nutrient nutrient : nutrients) {
+            NutrientType type = nutrient.nutrientType;
+            String nutrientName = getContext().getText(type.stringResource).toString();
             sb.append("\t").append(nutrientName).append(": ");
-            Double nutrientValue = new BigDecimal(food.getNutrients().get(nutrient) * multiplier)
+            Double nutrientValue = new BigDecimal(nutrient.amount * multiplier)
                     .setScale(2, RoundingMode.HALF_UP).doubleValue();
 
             sb.append(nutrientValue).append(" ");
-            String nutritionAbv = getContext().getText(Food.NUTRIENT_UNITS.get(nutrient).getAbbreviationResource()).toString();
+            String nutritionAbv = getContext().getText(Nutrient.NUTRIENT_UNITS.get(type).getAbbreviationResource()).toString();
             sb.append(nutritionAbv).append("\n");
         }
 

@@ -1,54 +1,83 @@
 package edu.utsa.cs3443.anw198.foodtracker.model;
 
-import edu.utsa.cs3443.anw198.foodtracker.R;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-public enum Nutrient {
-    FAT(R.string.nutrient_fat),
-    FAT_SATURATED(R.string.nutrient_fat_saturated),
-    FAT_TRANS(R.string.nutrient_fat_trans),
+import java.util.HashMap;
+import java.util.Map;
 
-    CARBOHYDRATES(R.string.nutrient_carbohydrates),
-    FIBER(R.string.nutrient_fiber),
-    SUGAR(R.string.nutrient_sugar),
-    SUGAR_ADDED(R.string.nutrient_sugar_added),
-    SUGAR_ALCOHOL(R.string.nutrient_sugar_alcohol),
-    ETHYL_ALCOHOL(R.string.nutrient_ethyl_alcohol),
+import edu.utsa.cs3443.anw198.foodtracker.units.MassUnit;
 
-    PROTEIN(R.string.nutrient_protein),
+@Entity
+public class Nutrient {
+    public static final Map<NutrientType, MassUnit> NUTRIENT_UNITS = createNutrientUnits();
 
-    CALCIUM(R.string.nutrient_calcium),
-    CHOLESTEROL(R.string.nutrient_cholesterol),
-    SODIUM(R.string.nutrient_sodium),
-    IRON(R.string.nutrient_iron),
-    MAGNESIUM(R.string.nutrient_magnesium),
-    PHOSPHORUS(R.string.nutrient_phosphorus),
-    POTASSIUM(R.string.nutrient_potassium),
-    ZINC(R.string.nutrient_zinc),
-    COPPER(R.string.nutrient_copper),
-    THIAMIN(R.string.nutrient_thiamin),
-    RIBOFLAVIN(R.string.nutrient_riboflavin),
-    NIACIN(R.string.nutrient_niacin),
-    CHOLINE(R.string.nutrient_choline),
-    THEOBROMINE(R.string.nutrient_theobromine),
-    SELENIUM(R.string.nutrient_selenium),
-    RETINOL(R.string.nutrient_retinol),
-    CAROTENE_ALPHA(R.string.nutrient_carotene_alpha),
-    CAROTENE_BETA(R.string.nutrient_carotene_beta),
-    FOLIC_ACID(R.string.nutrient_folic_acid),
-    FOLATE(R.string.nutrient_folate),
-    CAFFEINE(R.string.nutrient_caffeine),
+    public Nutrient() { }
 
-    VITAMIN_A(R.string.nutrient_vitamin_a),
-    VITAMIN_B6(R.string.nutrient_vitamin_b6),
-    VITAMIN_B12(R.string.nutrient_vitamin_b12),
-    VITAMIN_C(R.string.nutrient_vitamin_c),
-    VITAMIN_D(R.string.nutrient_vitamin_d),
-    VITAMIN_E(R.string.nutrient_vitamin_e),
-    VITAMIN_K(R.string.nutrient_vitamin_k);
+    @Ignore
+    public Nutrient(NutrientType nutrientType, MassUnit inputUnit, double inputAmount) {
+        this(nutrientType, inputUnit, inputAmount, 0);
+    }
 
-    public final int stringResource;
+    @Ignore
+    public Nutrient(NutrientType nutrientType, MassUnit inputUnit, double inputAmount, long foodId) {
+        this.nutrientType = nutrientType;
+        this.foodId = foodId;
+        MassUnit destinationUnit = NUTRIENT_UNITS.get(nutrientType);
+        this.amount = inputUnit.convertTo(destinationUnit, inputAmount);
+    }
 
-    Nutrient(int stringResource) {
-        this.stringResource = stringResource;
+    @PrimaryKey(autoGenerate = true)
+    public long id;
+    public NutrientType nutrientType;
+    public double amount;
+    public long foodId;
+
+    private static Map<NutrientType, MassUnit> createNutrientUnits() {
+        Map<NutrientType, MassUnit> map = new HashMap<>();
+
+        map.put(NutrientType.FAT, MassUnit.GRAMS);
+        map.put(NutrientType.CARBOHYDRATES, MassUnit.GRAMS);
+        map.put(NutrientType.PROTEIN, MassUnit.GRAMS);
+        map.put(NutrientType.FAT_SATURATED, MassUnit.GRAMS);
+        map.put(NutrientType.FAT_TRANS, MassUnit.GRAMS);
+        map.put(NutrientType.FIBER, MassUnit.GRAMS);
+        map.put(NutrientType.SUGAR, MassUnit.GRAMS);
+        map.put(NutrientType.SUGAR_ADDED, MassUnit.GRAMS);
+        map.put(NutrientType.SUGAR_ALCOHOL, MassUnit.GRAMS);
+        map.put(NutrientType.ETHYL_ALCOHOL, MassUnit.GRAMS);
+
+        map.put(NutrientType.CALCIUM, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.CHOLESTEROL, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.SODIUM, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.IRON, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.MAGNESIUM, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.PHOSPHORUS, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.POTASSIUM, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.ZINC, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.COPPER, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.THIAMIN, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.RIBOFLAVIN, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.NIACIN, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.CHOLINE, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.VITAMIN_B6, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.VITAMIN_C, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.VITAMIN_E, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.CAFFEINE, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.THEOBROMINE, MassUnit.MILLIGRAMS);
+
+        map.put(NutrientType.SELENIUM, MassUnit.MICROGRAMS);
+        map.put(NutrientType.FOLATE, MassUnit.MICROGRAMS);
+        map.put(NutrientType.FOLIC_ACID, MassUnit.MICROGRAMS);
+        map.put(NutrientType.VITAMIN_A, MassUnit.MICROGRAMS);
+        map.put(NutrientType.RETINOL, MassUnit.MICROGRAMS);
+        map.put(NutrientType.VITAMIN_B12, MassUnit.MICROGRAMS);
+        map.put(NutrientType.VITAMIN_D, MassUnit.MICROGRAMS);
+        map.put(NutrientType.VITAMIN_K, MassUnit.MICROGRAMS);
+        map.put(NutrientType.CAROTENE_ALPHA, MassUnit.MICROGRAMS);
+        map.put(NutrientType.CAROTENE_BETA, MassUnit.MICROGRAMS);
+
+        return map;
     }
 }

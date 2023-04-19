@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel;
 
 import edu.utsa.cs3443.anw198.foodtracker.APIListener;
 import edu.utsa.cs3443.anw198.foodtracker.LoadingStatus;
+import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 
-public class DiaryViewModel extends ViewModel implements APIListener<Food> {
+public class DiaryViewModel extends ViewModel implements APIListener<CompleteFood> {
     private final MutableLiveData<String> mText;
-    private MutableLiveData<Food> foodResult = new MutableLiveData<>();
+    private MutableLiveData<CompleteFood> foodResult = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private MutableLiveData<LoadingStatus> loadStatus = new MutableLiveData<>();
 
@@ -22,7 +23,7 @@ public class DiaryViewModel extends ViewModel implements APIListener<Food> {
     public LiveData<String> getText() {
         return mText;
     }
-    public LiveData<Food> getFood() { return foodResult; }
+    public LiveData<CompleteFood> getFood() { return foodResult; }
     public LiveData<String> getErrorMessage() { return errorMessage; }
     public LiveData<LoadingStatus> getLoadStatus() { return loadStatus; }
 
@@ -31,7 +32,7 @@ public class DiaryViewModel extends ViewModel implements APIListener<Food> {
     }
 
     @Override
-    public void onResponse(Food result) {
+    public void onResponse(CompleteFood result) {
         foodResult.setValue(result);
         loadStatus.setValue(LoadingStatus.SUCCESS);
     }
