@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.utsa.cs3443.anw198.foodtracker.units.MassUnit;
+import edu.utsa.cs3443.anw198.foodtracker.model.units.MassUnit;
 
 @Entity
 public class Nutrient {

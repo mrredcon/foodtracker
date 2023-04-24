@@ -1,4 +1,4 @@
-package edu.utsa.cs3443.anw198.foodtracker.units;
+package edu.utsa.cs3443.anw198.foodtracker.model.units;
 
 import edu.utsa.cs3443.anw198.foodtracker.R;
 

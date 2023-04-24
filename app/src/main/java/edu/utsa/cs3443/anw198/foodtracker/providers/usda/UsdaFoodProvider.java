@@ -10,6 +10,7 @@ import java.util.Map;
 
 import edu.utsa.cs3443.anw198.foodtracker.APIListener;
 import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
+import edu.utsa.cs3443.anw198.foodtracker.model.DataOrigin;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodDao;
 import edu.utsa.cs3443.anw198.foodtracker.model.Nutrient;
@@ -21,8 +22,7 @@ import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaFoodPortion;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaNutrient;
 import edu.utsa.cs3443.anw198.foodtracker.providers.DbProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
-import edu.utsa.cs3443.anw198.foodtracker.units.MassUnit;
-import edu.utsa.cs3443.anw198.foodtracker.units.VolumeUnit;
+import edu.utsa.cs3443.anw198.foodtracker.model.units.MassUnit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -108,6 +108,8 @@ public class UsdaFoodProvider implements FoodProvider {
                 }
 
                 food.setName(usdaFood.getDescription());
+                food.setOnlineId(usdaFood.getFdcId());
+                food.setOrigin(DataOrigin.USDA);
 
                 List<Nutrient> nutrients = new ArrayList<>();
                 for (UsdaFoodNutrient foodNutrient : usdaFood.getFoodNutrients()) {
@@ -151,6 +153,14 @@ public class UsdaFoodProvider implements FoodProvider {
                 Thread thread = new Thread() {
                     public void run() {
                         FoodDao dao = DbProvider.getInstance().foodDao();
+
+                        // If the food is already in the DB, bail.
+                        // TODO: determine if we should overwrite instead
+                        Food existing = dao.getFoodByOnlineId(food.getOnlineId());
+                        if (existing != null) {
+                            return;
+                        }
+
                         long foodId = dao.insertFood(food);
 
                         for (ServingSize servingSize : servingSizes)
