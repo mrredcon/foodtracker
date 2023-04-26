@@ -9,15 +9,6 @@
     android:orientation="vertical"
     android:overScrollMode="ifContentScrolls">
 
-    <TextView
-        android:id="@+id/textViewSaveToDiary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="400dp"
-        android:padding="16dp"
-        android:scrollbars="horizontal|vertical"
-        android:text="hello" />
-
     <Button
         android:id="@+id/buttonSaveToDiary"
         android:layout_width="wrap_content"
@@ -43,5 +34,14 @@
         android:ems="10"
         android:hint="amount consumed"
         android:inputType="none|numberDecimal" />
+
+    <TextView
+        android:id="@+id/textViewSaveToDiary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="400dp"
+        android:padding="16dp"
+        android:scrollbars="horizontal|vertical"
+        android:text="hello" />
 
 </LinearLayout>

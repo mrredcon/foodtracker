@@ -7,15 +7,14 @@ import androidx.lifecycle.ViewModel;
 import edu.utsa.cs3443.anw198.foodtracker.APIListener;
 import edu.utsa.cs3443.anw198.foodtracker.LoadingStatus;
 import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
-import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 
-public class DiaryViewModel extends ViewModel implements APIListener<CompleteFood> {
+public class DiaryEntryViewModel extends ViewModel implements APIListener<CompleteFood> {
     private final MutableLiveData<String> mText;
     private MutableLiveData<CompleteFood> foodResult = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private MutableLiveData<LoadingStatus> loadStatus = new MutableLiveData<>();
 
-    public DiaryViewModel() {
+    public DiaryEntryViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is diary fragment");
     }
@@ -33,8 +32,8 @@ public class DiaryViewModel extends ViewModel implements APIListener<CompleteFoo
 
     @Override
     public void onResponse(CompleteFood result) {
-        foodResult.setValue(result);
-        loadStatus.setValue(LoadingStatus.SUCCESS);
+        foodResult.postValue(result);
+        loadStatus.postValue(LoadingStatus.SUCCESS);
     }
 
     @Override

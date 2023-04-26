@@ -1,10 +1,13 @@
 package edu.utsa.cs3443.anw198.foodtracker.model;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(/*foreignKeys ={
+        @ForeignKey(onDelete = ForeignKey.CASCADE,entity = Food.class,
+                parentColumns = "id",childColumns = "foodId")}*/)
 public class ServingSize {
 
     @Ignore

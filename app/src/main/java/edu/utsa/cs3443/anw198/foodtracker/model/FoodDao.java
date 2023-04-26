@@ -16,22 +16,31 @@ public interface FoodDao {
     List<Food> getAll();
 
     @Query("SELECT * FROM food WHERE id = :foodId")
-    Food getFood(int foodId);
+    Food getFood(long foodId);
 
     @Query("SELECT * FROM food WHERE onlineId = :onlineIdInput")
     Food getFoodByOnlineId(int onlineIdInput);
 
-    @Query("SELECT * FROM servingsize WHERE id = :foodId")
-    List<ServingSize> getServingSizesFromFood(int foodId);
+    @Query("SELECT * FROM servingsize WHERE foodId = :foodIdInput")
+    List<ServingSize> getServingSizesFromFood(long foodIdInput);
 
-    @Query("SELECT * FROM nutrient WHERE id = :foodId")
-    List<Nutrient> getNutrientsFromFood(int foodId);
+    @Query("SELECT * FROM nutrient WHERE foodId = :foodIdInput")
+    List<Nutrient> getNutrientsFromFood(long foodIdInput);
+
+    @Query("SELECT * FROM trackedfood")
+    List<TrackedFood> getAllTrackedFoods();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertFood(Food food);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertTrackedFood(TrackedFood trackedFood);
+
     //@Insert
     //void insertFood(Food food, List<ServingSize> servingSizes);
+
+    @Insert
+    long insertServingSize(ServingSize servingSizes);
 
     @Insert
     long[] insertServingSizes(List<ServingSize> servingSizes);
@@ -49,7 +58,7 @@ public interface FoodDao {
     void updateNutrients(List<Nutrient> nutrients);
 
     @Delete
-    void deleteFood(Food food);
+    int deleteFood(Food food);
 
     @Delete
     void deleteServingSizes(List<ServingSize> servingSizes);

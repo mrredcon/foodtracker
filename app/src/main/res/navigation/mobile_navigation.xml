@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/nav_diary"
-        android:name="edu.utsa.cs3443.anw198.foodtracker.ui.diary.DiaryFragment"
+        android:name="edu.utsa.cs3443.anw198.foodtracker.ui.diary.DiaryEntryFragment"
         android:label="@string/menu_diary"
-        tools:layout="@layout/fragment_diary" />
+        tools:layout="@layout/fragment_diary_entry" />
 </navigation>

@@ -154,29 +154,32 @@ public class UsdaFoodProvider implements FoodProvider {
                     public void run() {
                         FoodDao dao = DbProvider.getInstance().foodDao();
 
-                        // If the food is already in the DB, bail.
-                        // TODO: determine if we should overwrite instead
+                        // If the food is already in the DB, return the old data.
                         Food existing = dao.getFoodByOnlineId(food.getOnlineId());
                         if (existing != null) {
+                            List<ServingSize> existingServings = dao.getServingSizesFromFood(existing.id);
+                            List<Nutrient> existingNutrients = dao.getNutrientsFromFood(existing.id);
+                            listener.onResponse(new CompleteFood(existing, existingServings, existingNutrients));
                             return;
                         }
 
                         long foodId = dao.insertFood(food);
+                        food.id = foodId;
 
-                        for (ServingSize servingSize : servingSizes)
+                        for (ServingSize servingSize : servingSizes) {
                             servingSize.foodId = foodId;
-
-                        dao.insertServingSizes(servingSizes);
+                            long servingSizeId = dao.insertServingSize(servingSize);
+                            servingSize.id = servingSizeId;
+                        }
 
                         for (Nutrient nutrient : nutrients)
                             nutrient.foodId = foodId;
 
                         dao.insertNutrients(nutrients);
+                        listener.onResponse(new CompleteFood(food, servingSizes, nutrients));
                     }
                 };
                 thread.start();
-
-                listener.onResponse(new CompleteFood(food, servingSizes, nutrients));
             }
 
             @Override
