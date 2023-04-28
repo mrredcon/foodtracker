@@ -12,6 +12,9 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_searchfood">Search Food</string>
     <string name="menu_diary">Diary</string>
+    <string name="menu_diary_entry">Diary Entry</string>
+
+    <string name="button_calendar">Open Calendar</string>
 
     <string name="foodsearchresult_macros">Calories: %1$.0f / Fat: %2$,.1f / Carbs: %3$,.1f / Protein: %4$,.1f</string>
 
@@ -92,4 +95,6 @@
     <string name="nutrient_vitamin_d">Vitamin D</string>
     <string name="nutrient_vitamin_e">Vitamin E</string>
     <string name="nutrient_vitamin_k">Vitamin K</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

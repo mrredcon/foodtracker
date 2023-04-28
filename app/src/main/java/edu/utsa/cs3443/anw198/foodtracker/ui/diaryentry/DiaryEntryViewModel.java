@@ -1,4 +1,4 @@
-package edu.utsa.cs3443.anw198.foodtracker.ui.diary;
+package edu.utsa.cs3443.anw198.foodtracker.ui.diaryentry;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

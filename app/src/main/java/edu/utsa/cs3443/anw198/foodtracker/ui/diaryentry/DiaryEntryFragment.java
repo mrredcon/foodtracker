@@ -1,4 +1,4 @@
-package edu.utsa.cs3443.anw198.foodtracker.ui.diary;
+package edu.utsa.cs3443.anw198.foodtracker.ui.diaryentry;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -172,11 +174,16 @@ public class DiaryEntryFragment extends Fragment {
             trackedFood.amount = quantityInput;
             // save it to db and kick back to diary
             FoodDao dao = DbProvider.getInstance().foodDao();
-            saveFoodDialog.show();
+
+            Fragment frag = this;
             Thread thread = new Thread() {
                 public void run() {
                     dao.insertTrackedFood(trackedFood);
-                    saveFoodDialog.dismiss();
+
+                    getActivity().runOnUiThread(() -> {
+                        NavController navController = NavHostFragment.findNavController(frag);
+                        navController.navigate(R.id.nav_home);
+                    });
                 }
             };
             thread.start();

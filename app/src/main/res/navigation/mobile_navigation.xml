@@ -12,18 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="edu.utsa.cs3443.anw198.foodtracker.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="edu.utsa.cs3443.anw198.foodtracker.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
         android:id="@+id/nav_searchfood"
         android:name="edu.utsa.cs3443.anw198.foodtracker.ui.searchfood.SearchFoodFragment"
         android:label="@string/menu_searchfood"
@@ -36,8 +24,14 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/nav_diary"
-        android:name="edu.utsa.cs3443.anw198.foodtracker.ui.diary.DiaryEntryFragment"
-        android:label="@string/menu_diary"
+        android:id="@+id/nav_diary_entry"
+        android:name="edu.utsa.cs3443.anw198.foodtracker.ui.diaryentry.DiaryEntryFragment"
+        android:label="@string/menu_diary_entry"
         tools:layout="@layout/fragment_diary_entry" />
+
+    <fragment
+        android:id="@+id/nav_diary"
+        android:name="edu.utsa.cs3443.anw198.foodtracker.ui.diary.DiaryFragment"
+        android:label="@string/menu_diary"
+        tools:layout="@layout/fragment_diary" />
 </navigation>

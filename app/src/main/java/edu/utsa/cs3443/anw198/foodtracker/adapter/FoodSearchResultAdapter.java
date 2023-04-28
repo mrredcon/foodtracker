@@ -18,7 +18,7 @@ import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodProvider;
-import edu.utsa.cs3443.anw198.foodtracker.ui.diary.DiaryEntryViewModel;
+import edu.utsa.cs3443.anw198.foodtracker.ui.diaryentry.DiaryEntryViewModel;
 
 public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResultAdapter.FoodSearchResultViewHolder> {
     private FoodSearchResult[] searchResults;
@@ -68,7 +68,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
             //Log.e("Nom", "I was clicked: " + result.getCalories());
 
             NavController navController = Navigation.findNavController(activity, R.id.nav_host_fragment_content_main);
-            navController.navigate(R.id.nav_diary);
+            navController.navigate(R.id.nav_diary_entry);
 
             DiaryEntryViewModel diaryEntryViewModel = new ViewModelProvider(activity).get(DiaryEntryViewModel.class);
             FoodProvider provider = new UsdaFoodProvider();

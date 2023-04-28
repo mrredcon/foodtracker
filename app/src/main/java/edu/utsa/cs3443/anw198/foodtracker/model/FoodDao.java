@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public interface FoodDao {
 
     @Query("SELECT * FROM trackedfood")
     List<TrackedFood> getAllTrackedFoods();
+
+    @Transaction
+    @Query("SELECT * FROM food WHERE id = :foodId")
+    CompleteFood getCompleteFood(long foodId);
+
+    @Transaction
+    @Query("SELECT * FROM food WHERE id IN (:foodIds)")
+    List<CompleteFood> getCompleteFoods(List<Long> foodIds);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertFood(Food food);
