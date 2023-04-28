@@ -97,7 +97,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
             textViewTitle = itemView.findViewById(R.id.foodsearchresult_title);
             textViewMacros = itemView.findViewById(R.id.foodsearchresult_macros);
             textViewBrand = itemView.findViewById(R.id.foodsearchresult_brand);
-            cardView = itemView.findViewById(R.id.foodSearchResult_card);
+            cardView = itemView.findViewById(R.id.foodsearchresult_card);
             //activity = FragmentManager.findFragment(itemView).getActivity();
         }
     }

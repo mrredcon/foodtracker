@@ -6,9 +6,6 @@ import androidx.room.Relation;
 import java.util.List;
 
 public class CompleteFood {
-
-    public CompleteFood() { }
-
     public CompleteFood(Food food, List<ServingSize> servingSizes, List<Nutrient> nutrients) {
         this.food = food;
         this.servingSizes = servingSizes;
