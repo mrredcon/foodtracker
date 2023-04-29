@@ -7,51 +7,30 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
+import java.util.LinkedHashMap;
 
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
-import edu.utsa.cs3443.anw198.foodtracker.model.Nutrient;
-import edu.utsa.cs3443.anw198.foodtracker.model.NutrientType;
 import edu.utsa.cs3443.anw198.foodtracker.model.ServingSize;
 import edu.utsa.cs3443.anw198.foodtracker.model.TrackedFood;
-import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
-import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodProvider;
-import edu.utsa.cs3443.anw198.foodtracker.ui.diaryentry.DiaryEntryViewModel;
 
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder> {
-    private List<TrackedFood> trackedFoods;
-    private List<CompleteFood> completeFoods;
+    private LinkedHashMap<TrackedFood, CompleteFood> foods;
     private FragmentActivity activity;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
-    public DiaryAdapter(FragmentActivity activity, List<TrackedFood> trackedFoods, List<CompleteFood> completeFoods) {
-        this.trackedFoods = trackedFoods;
-        this.completeFoods = completeFoods;
+    public DiaryAdapter(FragmentActivity activity, LinkedHashMap<TrackedFood, CompleteFood> foods) {
+        this.foods = foods;
         this.activity = activity;
-    }
-
-    private CompleteFood findCompleteFood(TrackedFood trackedFood) {
-        for (CompleteFood completeFood : completeFoods) {
-            if (completeFood.food.id == trackedFood.foodId) {
-                return completeFood;
-            }
-        }
-
-        return null;
     }
 
     private ServingSize findServingSize(TrackedFood trackedFood, CompleteFood completeFood) {
@@ -81,11 +60,15 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
      * Replace the contents of a view
      */
     public void onBindViewHolder(@NonNull DiaryViewHolder holder, int position) {
-        TrackedFood trackedFood = trackedFoods.get(position);
-        CompleteFood completeFood = findCompleteFood(trackedFood);
+        TrackedFood trackedFood = (TrackedFood) foods.keySet().toArray()[position];
+        CompleteFood completeFood = foods.get(trackedFood);
         ServingSize servingSize = findServingSize(trackedFood, completeFood);
 
+        // tracked food amount is how many servings
+        // servingSize amount is base units per serving
         double quantity = trackedFood.amount * servingSize.amount;
+
+        // needed to calculate nutrition and calories
         double multiplier = quantity / Food.DEFAULT_QUANTITY;
 
         String calories = holder.textViewTitle.getContext().getString(R.string.diary_calories,
@@ -95,12 +78,12 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
         holder.textViewTitle.setText(completeFood.food.getName());
         String baseUnitAbv = holder.textViewTitle.getContext().getString(completeFood.food.getBaseUnit().getAbbreviationResource());
         String servingsText = holder.textViewTitle.getContext().getString(R.string.diary_servings,
-                trackedFood.amount, servingSize.name, servingSize.amount * multiplier, baseUnitAbv);
+                trackedFood.amount, servingSize.name, quantity, baseUnitAbv);
 
         // Show "1 cheese cracker" instead of "1.0 * 1 cheese cracker"
         if (trackedFood.amount == 1) {
             servingsText = holder.textViewTitle.getContext().getString(R.string.diary_servings_single,
-                    servingSize.name, servingSize.amount * multiplier, baseUnitAbv);
+                    servingSize.name, quantity, baseUnitAbv);
         }
 
         holder.textViewServings.setText(servingsText);
@@ -130,7 +113,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
      * Return size of data set
      */
     public int getItemCount() {
-        return trackedFoods.size();
+        return foods.size();
     }
 
     public class DiaryViewHolder extends RecyclerView.ViewHolder {

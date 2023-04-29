@@ -1,6 +1,5 @@
 package edu.utsa.cs3443.anw198.foodtracker.model;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -28,8 +27,11 @@ public interface FoodDao {
     @Query("SELECT * FROM nutrient WHERE foodId = :foodIdInput")
     List<Nutrient> getNutrientsFromFood(long foodIdInput);
 
-    @Query("SELECT * FROM trackedfood")
-    List<TrackedFood> getAllTrackedFoods();
+    //@Query("SELECT * FROM trackedfood")
+    //List<TrackedFood> getAllTrackedFoods();
+
+    @Query("SELECT * FROM trackedfood WHERE dateConsumed BETWEEN :startDate AND :endDate")
+    List<TrackedFood> getTrackedFoodsFromDate(long startDate, long endDate);
 
     @Transaction
     @Query("SELECT * FROM food WHERE id = :foodId")
