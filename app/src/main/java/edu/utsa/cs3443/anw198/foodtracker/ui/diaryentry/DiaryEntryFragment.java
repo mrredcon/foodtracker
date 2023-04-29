@@ -183,7 +183,6 @@ public class DiaryEntryFragment extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         NavController navController = NavHostFragment.findNavController(frag);
                         navController.navigateUp();
-                        //navController.navigate(R.id.nav_diary);
                     });
                 }
             };

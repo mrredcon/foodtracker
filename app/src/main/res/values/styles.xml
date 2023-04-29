@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="gfgGreenText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#0f9d58</item>
+    </style>
+
+    <style name="boldBlackArial">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">arial</item>
+    </style>
+</resources>
