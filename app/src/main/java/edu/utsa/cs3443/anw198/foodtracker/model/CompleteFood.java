@@ -20,4 +20,35 @@ public class CompleteFood {
 
     @Relation(parentColumn = "id", entityColumn = "foodId")
     public List<Nutrient> nutrients;
+
+    public Nutrient getNutrient(NutrientType nutrientType) {
+        for (Nutrient nutrient : nutrients) {
+            if (nutrient.nutrientType == nutrientType) {
+                return nutrient;
+            }
+        }
+
+        return null;
+    }
+
+    public String[] getServingSizeNames() {
+        String[] names = new String[servingSizes.size()];
+        for (int i = 0; i < names.length; i++) {
+            names[i] = servingSizes.get(i).name;
+        }
+
+        return names;
+    }
+
+    public ServingSize getServingSizeFromName(String name) {
+        if (name == null) {
+            return null;
+        }
+        for (ServingSize ss : servingSizes) {
+            if (ss.name.equals(name)) {
+                return ss;
+            }
+        }
+        return null;
+    }
 }

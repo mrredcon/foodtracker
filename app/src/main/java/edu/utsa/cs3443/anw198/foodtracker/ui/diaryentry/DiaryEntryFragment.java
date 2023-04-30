@@ -26,11 +26,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentDiaryEntryBinding;
+import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodDao;
 import edu.utsa.cs3443.anw198.foodtracker.model.Nutrient;
@@ -41,33 +41,26 @@ import edu.utsa.cs3443.anw198.foodtracker.model.units.VolumeUnit;
 import edu.utsa.cs3443.anw198.foodtracker.providers.DbProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodProvider;
+import edu.utsa.cs3443.anw198.foodtracker.ui.TrackedFoodsViewModel;
 
 public class DiaryEntryFragment extends Fragment {
     private FragmentDiaryEntryBinding binding;
     private AlertDialog loadFoodDialog;
-    private AlertDialog saveFoodDialog;
     private FoodProvider provider;
-    private Food food;
-    private List<ServingSize> servingSizes;
-    private List<Nutrient> nutrients;
+    private CompleteFood completeFood;
     private String baseUnitName;
     private Spinner dropdown;
+    private TrackedFoodsViewModel trackedFoodsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //GalleryViewModel galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
-
         binding = FragmentDiaryEntryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        //final TextView textView = binding.textGallery;
-        //galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         provider = new UsdaFoodProvider();
 
         loadFoodDialog = setupAlertDialog();
-        saveFoodDialog = setupSaveAlertDialog();
-        setupViewModel();
+        setupViewModels();
 
         return root;
     }
@@ -85,7 +78,7 @@ public class DiaryEntryFragment extends Fragment {
 
                 // If the selected dropdown item is the base unit (like grams),
                 // set the suggested amount to default quantity (like 100 grams)
-                if (key.equals(getContext().getText(food.getBaseUnit().getTitleResource()))) {
+                if (key.equals(baseUnitName)) {
                     quantityInput.setText(String.valueOf(Food.DEFAULT_QUANTITY));
                 } else {
                     quantityInput.setText(String.valueOf(1.0));
@@ -118,7 +111,7 @@ public class DiaryEntryFragment extends Fragment {
 
                 double baseUnitCalc = gramsInServing * quantityInput;
 
-                String baseUnitAbv = getContext().getText(food.getBaseUnit().getAbbreviationResource()).toString();
+                String baseUnitAbv = getContext().getText(completeFood.food.getBaseUnit().getAbbreviationResource()).toString();
 
                 updateFoodInfo(baseUnitCalc);
                 gramsDisplay.setText(baseUnitCalc + " " + baseUnitAbv);
@@ -145,18 +138,9 @@ public class DiaryEntryFragment extends Fragment {
         return quantityInput;
     }
 
-    private AlertDialog setupSaveAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Saving tracked food, please wait.");
-        builder.setTitle("Saving...");
-        builder.setCancelable(false);
-
-        return builder.create();
-    }
-
     private void save() {
         TrackedFood trackedFood = new TrackedFood();
-        trackedFood.foodId = food.id;
+        trackedFood.foodId = completeFood.food.id;
         trackedFood.dateConsumed = new Date();
 
         String selectedItem = (String)dropdown.getSelectedItem();
@@ -164,7 +148,7 @@ public class DiaryEntryFragment extends Fragment {
             return;
         }
 
-        trackedFood.servingSizeId = getServingSizeFromName(selectedItem).id;
+        trackedFood.servingSizeId = completeFood.getServingSizeFromName(selectedItem).id;
 
         EditText quantityEditText = getView().findViewById(R.id.editTextQuantity);
         Double quantityInput = getQuantityInput(quantityEditText.getText());
@@ -172,13 +156,14 @@ public class DiaryEntryFragment extends Fragment {
         // User's quantity input is valid, go ahead and save
         if (quantityInput != null) {
             trackedFood.amount = quantityInput;
-            // save it to db and kick back to diary
+            // save it to db and go back one page in the UI
             FoodDao dao = DbProvider.getInstance().foodDao();
 
             Fragment frag = this;
             Thread thread = new Thread() {
                 public void run() {
                     dao.insertTrackedFood(trackedFood);
+                    trackedFoodsViewModel.reloadData();
 
                     getActivity().runOnUiThread(() -> {
                         NavController navController = NavHostFragment.findNavController(frag);
@@ -191,7 +176,7 @@ public class DiaryEntryFragment extends Fragment {
     }
 
     private Double getServingSizeAmount(String name) {
-        for (ServingSize servingSize : servingSizes) {
+        for (ServingSize servingSize : completeFood.servingSizes) {
             if (servingSize.name.equals(name)) {
                 return servingSize.amount;
             }
@@ -210,8 +195,9 @@ public class DiaryEntryFragment extends Fragment {
         return builder.create();
     }
 
-    private void setupViewModel() {
+    private void setupViewModels() {
         DiaryEntryViewModel diaryEntryViewModel = new ViewModelProvider(getActivity()).get(DiaryEntryViewModel.class);
+        trackedFoodsViewModel = new ViewModelProvider(getActivity()).get(TrackedFoodsViewModel.class);
 
         diaryEntryViewModel.getLoadStatus().observe(this, searchStatus -> {
             switch (searchStatus) {
@@ -226,10 +212,8 @@ public class DiaryEntryFragment extends Fragment {
         });
 
         diaryEntryViewModel.getFood().observe(this, foodResult -> {
-            this.food = foodResult.food;
-            this.servingSizes = foodResult.servingSizes;
-            this.nutrients = foodResult.nutrients;
-            this.baseUnitName = getContext().getString(food.getBaseUnit().getTitleResource());
+            this.completeFood = foodResult;
+            this.baseUnitName = getContext().getString(completeFood.food.getBaseUnit().getTitleResource());
 
             setupFoodServingSizes(); // Only do this once to avoid infinite loop
             updateFoodInfo(Food.DEFAULT_QUANTITY);
@@ -245,35 +229,14 @@ public class DiaryEntryFragment extends Fragment {
         //servingSizes.add(new ServingSize(getContext().getString(food.getBaseUnit().getTitleResource()), 1.0, 0));
         ((EditText)getView().findViewById(R.id.editTextQuantity)).setText(String.valueOf(Food.DEFAULT_QUANTITY));
         Spinner dropdown = getView().findViewById(R.id.spinnerServingSize);
-        String[] choices = getServingSizeNames();
+        String[] choices = completeFood.getServingSizeNames();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, choices);
         dropdown.setAdapter(adapter);
     }
 
-    private String[] getServingSizeNames() {
-        String[] names = new String[servingSizes.size()];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = servingSizes.get(i).name;
-        }
-
-        return names;
-    }
-
-    private ServingSize getServingSizeFromName(String name) {
-        if (name == null) {
-            return null;
-        }
-        for (ServingSize ss : servingSizes) {
-            if (ss.name.equals(name)) {
-                return ss;
-            }
-        }
-        return null;
-    }
-
     private String[] getBuiltInUnits() {
         String[] unitNames;
-        if (food.getMeasuredInVolume()) {
+        if (completeFood.food.isMeasuredInVolume()) {
             // handle volume
             VolumeUnit[] units = VolumeUnit.values();
             // TODO: finish me
@@ -291,12 +254,12 @@ public class DiaryEntryFragment extends Fragment {
         double multiplier = quantity / Food.DEFAULT_QUANTITY;
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Name: ").append(food.getName()).append("\n");
+        sb.append("Name: ").append(completeFood.food.getName()).append("\n");
         sb.append("Calories: ");
-        sb.append(String.format(Locale.getDefault(), "%.1f", food.getCalories() * multiplier)).append("\n");
+        sb.append(String.format(Locale.getDefault(), "%.1f", completeFood.food.getCalories() * multiplier)).append("\n");
 
         sb.append("\nNutrients:\n");
-        for (Nutrient nutrient : nutrients) {
+        for (Nutrient nutrient : completeFood.nutrients) {
             NutrientType type = nutrient.nutrientType;
             String nutrientName = getContext().getText(type.stringResource).toString();
             sb.append("\t").append(nutrientName).append(": ");

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="nutrient_order_fat">0</integer>
+    <integer name="nutrient_order_fat_saturated">1</integer>
+    <integer name="nutrient_order_fat_trans">2</integer>
+    <integer name="nutrient_order_cholesterol">3</integer>
+    <integer name="nutrient_order_sodium">4</integer>
+    <integer name="nutrient_order_carbohydrates">5</integer>
+    <integer name="nutrient_order_fiber">6</integer>
+    <integer name="nutrient_order_sugar">7</integer>
+    <integer name="nutrient_order_sugar_added">8</integer>
+    <integer name="nutrient_order_sugar_alcohol">9</integer>
+    <integer name="nutrient_order_protein">10</integer>
+    
+    <integer name="nutrient_order_vitamin_a">11</integer>
+    <integer name="nutrient_order_vitamin_b6">12</integer>
+    <integer name="nutrient_order_vitamin_b12">13</integer>
+    <integer name="nutrient_order_vitamin_c">14</integer>
+    <integer name="nutrient_order_vitamin_d">15</integer>
+    <integer name="nutrient_order_vitamin_e">16</integer>
+    <integer name="nutrient_order_vitamin_k">17</integer>
+
+    <integer name="nutrient_order_calcium">18</integer>
+    <integer name="nutrient_order_iron">19</integer>
+    <integer name="nutrient_order_magnesium">20</integer>
+    <integer name="nutrient_order_phosphorus">21</integer>
+    <integer name="nutrient_order_potassium">22</integer>
+    <integer name="nutrient_order_zinc">23</integer>
+    <integer name="nutrient_order_copper">24</integer>
+    <integer name="nutrient_order_thiamin">25</integer>
+    <integer name="nutrient_order_riboflavin">26</integer>
+    <integer name="nutrient_order_niacin">27</integer>
+    <integer name="nutrient_order_choline">28</integer>
+    <integer name="nutrient_order_theobromine">29</integer>
+    <integer name="nutrient_order_selenium">30</integer>
+    <integer name="nutrient_order_retinol">31</integer>
+    <integer name="nutrient_order_carotene_alpha">32</integer>
+    <integer name="nutrient_order_carotene_beta">33</integer>
+    <integer name="nutrient_order_folic_acid">34</integer>
+    <integer name="nutrient_order_folate">35</integer>
+    <integer name="nutrient_order_caffeine">36</integer>
+    <integer name="nutrient_order_ethyl_alcohol">37</integer>
+</resources>

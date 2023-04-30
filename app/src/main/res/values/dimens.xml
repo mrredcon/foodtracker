@@ -24,7 +24,49 @@
     <dimen name="fda_nutrition_facts_divider_medium_small_size">10dp</dimen>
     <dimen name="fda_nutrition_facts_text_size">12dp</dimen>
     <dimen name="fda_nutrition_facts_text_height">64dp</dimen>
+    <dimen name="fda_nutrition_facts_nutrient_item_height">38dp</dimen>
 
     <dimen name="fda_nutrition_facts_top_bottom_margin">6dp</dimen>
     <dimen name="fda_nutrition_facts_margin_sides">8dp</dimen>
+
+    <item format="float" type="dimen" name="nutrient_dv_fat">78</item>
+    <item format="float" type="dimen" name="nutrient_dv_fat_saturated">20</item>
+    <item format="float" type="dimen" name="nutrient_dv_fat_trans">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_cholesterol">300</item>
+    <item format="float" type="dimen" name="nutrient_dv_sodium">2300</item>
+    <item format="float" type="dimen" name="nutrient_dv_carbohydrates">275</item>
+    <item format="float" type="dimen" name="nutrient_dv_fiber">28</item>
+    <item format="float" type="dimen" name="nutrient_dv_sugar">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_sugar_added">50</item>
+    <item format="float" type="dimen" name="nutrient_dv_sugar_alcohol">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_protein">50</item>
+
+    <item format="float" type="dimen" name="nutrient_dv_vitamin_a">900</item>
+    <item format="float" type="dimen" name="nutrient_dv_vitamin_b6">1.7</item>
+    <item format="float" type="dimen" name="nutrient_dv_vitamin_b12">2.4</item>
+    <item format="float" type="dimen" name="nutrient_dv_vitamin_c">90</item>
+    <item format="float" type="dimen" name="nutrient_dv_vitamin_d">20</item>
+    <item format="float" type="dimen" name="nutrient_dv_vitamin_e">15</item>
+    <item format="float" type="dimen" name="nutrient_dv_vitamin_k">120</item>
+
+    <item format="float" type="dimen" name="nutrient_dv_calcium">1300</item>
+    <item format="float" type="dimen" name="nutrient_dv_iron">18</item>
+    <item format="float" type="dimen" name="nutrient_dv_magnesium">420</item>
+    <item format="float" type="dimen" name="nutrient_dv_phosphorus">1250</item>
+    <item format="float" type="dimen" name="nutrient_dv_potassium">4700</item>
+    <item format="float" type="dimen" name="nutrient_dv_zinc">11</item>
+    <item format="float" type="dimen" name="nutrient_dv_copper">0.9</item>
+    <item format="float" type="dimen" name="nutrient_dv_thiamin">1.2</item>
+    <item format="float" type="dimen" name="nutrient_dv_riboflavin">1.3</item>
+    <item format="float" type="dimen" name="nutrient_dv_niacin">16</item>
+    <item format="float" type="dimen" name="nutrient_dv_choline">550</item>
+    <item format="float" type="dimen" name="nutrient_dv_theobromine">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_selenium">55</item>
+    <item format="float" type="dimen" name="nutrient_dv_retinol">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_carotene_alpha">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_carotene_beta">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_folic_acid">400</item>
+    <item format="float" type="dimen" name="nutrient_dv_folate">400</item>
+    <item format="float" type="dimen" name="nutrient_dv_caffeine">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_ethyl_alcohol">0</item>
 </resources>

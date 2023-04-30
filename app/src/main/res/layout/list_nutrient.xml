@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/fda_nutrition_facts_nutrient_item_height"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fda_nutrition_facts_divider_small_size"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:background="@color/fda_nutrition_facts_divider_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginBottom="@dimen/fda_nutrition_facts_top_bottom_margin"
+        android:orientation="horizontal"
+        android:weightSum="11">
+
+        <Space
+            android:id="@+id/homeIndent1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <Space
+            android:id="@+id/homeIndent2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/homeNutrient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:text="Saturated Fat 1g" />
+
+        <TextView
+            android:id="@+id/homePercentDV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right"
+            android:text="99999%" />
+    </LinearLayout>
+</LinearLayout>

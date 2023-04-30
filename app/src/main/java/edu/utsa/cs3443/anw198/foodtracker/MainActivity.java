@@ -1,6 +1,7 @@
 package edu.utsa.cs3443.anw198.foodtracker;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,10 +23,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Calendar;
+
 import edu.utsa.cs3443.anw198.foodtracker.databinding.ActivityMainBinding;
 import edu.utsa.cs3443.anw198.foodtracker.providers.DbProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodSearchProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodSearchProvider;
+import edu.utsa.cs3443.anw198.foodtracker.ui.TrackedFoodsViewModel;
 import edu.utsa.cs3443.anw198.foodtracker.ui.searchfood.SearchFoodViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private SearchFoodViewModel searchFoodViewModel;
+    private TrackedFoodsViewModel trackedFoodsViewModel;
+    private Calendar today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         // Create a ViewModel the first time the system calls an activity's onCreate() method.
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         searchFoodViewModel = new ViewModelProvider(this).get(SearchFoodViewModel.class);
+
+        today = Calendar.getInstance();
+        trackedFoodsViewModel = new ViewModelProvider(this).get(TrackedFoodsViewModel.class);
+        trackedFoodsViewModel.setDateAndReloadData(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
@@ -133,13 +143,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                navController.navigate(R.id.nav_settings);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_settings) {
+            navController.navigate(R.id.nav_settings);
+            return true;
+        } else if (item.getItemId() == R.id.action_calendar) {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, 0,
+                    (datePicker, year, month, day) -> trackedFoodsViewModel.setDateAndReloadData(year, month, day),
+                    today.get(Calendar.YEAR),
+                    today.get(Calendar.MONTH),
+                    today.get(Calendar.DAY_OF_MONTH));
+
+            datePickerDialog.show();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

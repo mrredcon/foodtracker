@@ -92,6 +92,7 @@ public class SearchFoodFragment extends Fragment {
         searchFoodViewModel.getSearchResults().observe(this, searchResults -> {
             RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
             recyclerView.setAdapter(new FoodSearchResultAdapter(getActivity(), searchResults));
+            // Search results cannot change
             recyclerView.setHasFixedSize(true);
         });
 

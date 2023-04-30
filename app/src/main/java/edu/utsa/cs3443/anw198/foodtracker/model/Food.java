@@ -54,7 +54,7 @@ public class Food {
         return MassUnit.GRAMS;
     }
 
-    public boolean getMeasuredInVolume() {
+    public boolean isMeasuredInVolume() {
         return measuredInVolume;
     }
 
