@@ -98,6 +98,13 @@
     <string name="nutrient_folic_acid">Folic Acid</string>
     <string name="nutrient_folate">Folate</string>
     <string name="nutrient_caffeine">Caffeine</string>
+    <string name="nutrient_manganese">Manganese</string>
+    <string name="nutrient_biotin">Biotin</string>
+    <string name="nutrient_chloride">Chloride</string>
+    <string name="nutrient_chromium">Chromium</string>
+    <string name="nutrient_molybdenum">Molybdenum</string>
+    <string name="nutrient_pantothenic_acid">Pantothenic Acid</string>
+    <string name="nutrient_iodine">Iodine</string>
     <string name="nutrient_vitamin_a">Vitamin A</string>
     <string name="nutrient_vitamin_b6">Vitamin B6</string>
     <string name="nutrient_vitamin_b12">Vitamin B12</string>
