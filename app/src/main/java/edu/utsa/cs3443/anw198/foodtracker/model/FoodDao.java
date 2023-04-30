@@ -72,5 +72,8 @@ public interface FoodDao {
     int deleteFood(Food food);
 
     @Delete
+    int deleteTrackedFood(TrackedFood food);
+
+    @Delete
     void deleteServingSizes(List<ServingSize> servingSizes);
 }

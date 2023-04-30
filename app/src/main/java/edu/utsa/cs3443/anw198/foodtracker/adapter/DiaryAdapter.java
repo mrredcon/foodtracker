@@ -1,10 +1,11 @@
 package edu.utsa.cs3443.anw198.foodtracker.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,14 +21,17 @@ import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 import edu.utsa.cs3443.anw198.foodtracker.model.ServingSize;
 import edu.utsa.cs3443.anw198.foodtracker.model.TrackedFood;
+import edu.utsa.cs3443.anw198.foodtracker.ui.TrackedFoodsViewModel;
 
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder> {
+    private TrackedFoodsViewModel trackedFoodsViewModel;
     private LinkedHashMap<TrackedFood, CompleteFood> foods;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
-    public DiaryAdapter(LinkedHashMap<TrackedFood, CompleteFood> foods) {
+    public DiaryAdapter(TrackedFoodsViewModel trackedFoodsViewModel, LinkedHashMap<TrackedFood, CompleteFood> foods) {
+        this.trackedFoodsViewModel = trackedFoodsViewModel;
         this.foods = foods;
     }
 
@@ -79,9 +83,38 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
         holder.textViewTime.setText(formatter.format(trackedFood.dateConsumed));
 
         holder.cardView.setOnClickListener(c -> {
-            Toast.makeText(holder.cardView.getContext(), "Please implement me!", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(c.getContext());
+
+            builder.setTitle("Delete tracked food");
+            builder.setMessage("Are you sure you want to delete this tracked food?");
+
+            builder.setPositiveButton("Yes, delete it!", (dialog, which) -> {
+                trackedFoodsViewModel.deleteTrackedFood(trackedFood);
+                dialog.dismiss();
+            });
+
+            builder.setNegativeButton("CANCEL", (dialog, which) -> {
+                // Do nothing
+                dialog.dismiss();
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
         });
     }
+
+    private DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+        switch (which){
+            case DialogInterface.BUTTON_POSITIVE:
+                //Yes button clicked
+                break;
+
+            case DialogInterface.BUTTON_NEGATIVE:
+                //No button clicked
+                break;
+        }
+    };
+
 
     @Override
     /**
