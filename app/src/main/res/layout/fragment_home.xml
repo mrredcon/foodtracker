@@ -127,7 +127,7 @@
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
         android:fontFamily="sans-serif-black"
         android:gravity="right"
-        android:text="% Daily Value *"
+        android:text="% Daily Value"
         android:textColor="@color/black"
         android:textSize="@dimen/fda_nutrition_facts_daily_value_size" />
 

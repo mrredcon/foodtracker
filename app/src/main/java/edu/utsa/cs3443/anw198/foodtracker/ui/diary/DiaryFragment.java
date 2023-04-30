@@ -48,26 +48,8 @@ public class DiaryFragment extends Fragment {
 
     private void populateUI(LinkedHashMap<TrackedFood, CompleteFood> foods) {
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerViewDiary);
-        recyclerView.setAdapter(new DiaryAdapter(foods));
+        recyclerView.setAdapter(new DiaryAdapter(trackedFoodsViewModel, foods));
         // User can delete diary entries
         recyclerView.setHasFixedSize(false);
     }
-
-    /*
-    private void setupCalendarButton() {
-        Button calButton = getView().findViewById(R.id.buttonOpenCalendar);
-        Calendar c = Calendar.getInstance();
-
-        calButton.setOnClickListener(btn -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), 0,
-                    (datePicker, year, month, day) -> trackedFoodsViewModel.setDate(year, month, day),
-                    c.get(Calendar.YEAR),
-                    c.get(Calendar.MONTH),
-                    c.get(Calendar.DAY_OF_MONTH));
-
-            datePickerDialog.show();
-        });
-    }
-
-     */
 }

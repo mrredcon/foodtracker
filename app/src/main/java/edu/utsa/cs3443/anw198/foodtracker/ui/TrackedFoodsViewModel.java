@@ -60,6 +60,18 @@ public class TrackedFoodsViewModel extends ViewModel {
         thread.start();
     }
 
+    public void deleteTrackedFood(TrackedFood trackedFood) {
+        foods.remove(trackedFood);
+        FoodDao dao = DbProvider.getInstance().foodDao();
+        Thread thread = new Thread() {
+            public void run() {
+                dao.deleteTrackedFood(trackedFood);
+                liveDataFoods.postValue(foods);
+            }
+        };
+        thread.start();
+    }
+
     private void loadCompleteFoods(List<TrackedFood> trackedFoods) {
         foods.clear();
         FoodDao dao = DbProvider.getInstance().foodDao();
