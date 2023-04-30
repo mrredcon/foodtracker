@@ -37,6 +37,14 @@ public enum NutrientType {
     FOLIC_ACID(R.string.nutrient_folic_acid),
     FOLATE(R.string.nutrient_folate),
     CAFFEINE(R.string.nutrient_caffeine),
+    MANGANESE(R.string.nutrient_manganese),
+    BIOTIN(R.string.nutrient_biotin),
+    CHLORIDE(R.string.nutrient_chloride),
+    CHROMIUM(R.string.nutrient_chromium),
+    MOLYBDENUM(R.string.nutrient_molybdenum),
+    PANTOTHENIC_ACID(R.string.nutrient_pantothenic_acid),
+    IODINE(R.string.nutrient_iodine),
+
 
     VITAMIN_A(R.string.nutrient_vitamin_a),
     VITAMIN_B6(R.string.nutrient_vitamin_b6),
@@ -45,6 +53,7 @@ public enum NutrientType {
     VITAMIN_D(R.string.nutrient_vitamin_d),
     VITAMIN_E(R.string.nutrient_vitamin_e),
     VITAMIN_K(R.string.nutrient_vitamin_k);
+
 
     public final int stringResource;
 

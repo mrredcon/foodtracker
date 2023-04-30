@@ -50,6 +50,7 @@ public class Nutrient {
         map.put(NutrientType.SUGAR_ADDED, MassUnit.GRAMS);
         map.put(NutrientType.SUGAR_ALCOHOL, MassUnit.GRAMS);
         map.put(NutrientType.ETHYL_ALCOHOL, MassUnit.GRAMS);
+        map.put(NutrientType.CHLORIDE, MassUnit.GRAMS);
 
         map.put(NutrientType.CALCIUM, MassUnit.MILLIGRAMS);
         map.put(NutrientType.CHOLESTEROL, MassUnit.MILLIGRAMS);
@@ -69,6 +70,7 @@ public class Nutrient {
         map.put(NutrientType.VITAMIN_E, MassUnit.MILLIGRAMS);
         map.put(NutrientType.CAFFEINE, MassUnit.MILLIGRAMS);
         map.put(NutrientType.THEOBROMINE, MassUnit.MILLIGRAMS);
+        map.put(NutrientType.MANGANESE, MassUnit.MILLIGRAMS);
 
         map.put(NutrientType.SELENIUM, MassUnit.MICROGRAMS);
         map.put(NutrientType.FOLATE, MassUnit.MICROGRAMS);
@@ -80,6 +82,7 @@ public class Nutrient {
         map.put(NutrientType.VITAMIN_K, MassUnit.MICROGRAMS);
         map.put(NutrientType.CAROTENE_ALPHA, MassUnit.MICROGRAMS);
         map.put(NutrientType.CAROTENE_BETA, MassUnit.MICROGRAMS);
+        map.put(NutrientType.BIOTIN, MassUnit.MICROGRAMS);
 
         return map;
     }
