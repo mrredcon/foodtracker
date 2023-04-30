@@ -69,4 +69,11 @@
     <item format="float" type="dimen" name="nutrient_dv_folate">400</item>
     <item format="float" type="dimen" name="nutrient_dv_caffeine">0</item>
     <item format="float" type="dimen" name="nutrient_dv_ethyl_alcohol">0</item>
+    <item format="float" type="dimen" name="nutrient_dv_manganese">2.3</item>
+    <item format="float" type="dimen" name="nutrient_dv_biotin">30</item>
+    <item format="float" type="dimen" name="nutrient_dv_chloride">2300</item>
+    <item format="float" type="dimen" name="nutrient_dv_chromium">35</item>
+    <item format="float" type="dimen" name="nutrient_dv_molybdenum">45</item>
+    <item format="float" type="dimen" name="nutrient_dv_pantothenic_acid">5</item>
+    <item format="float" type="dimen" name="nutrient_dv_iodine">150</item>
 </resources>

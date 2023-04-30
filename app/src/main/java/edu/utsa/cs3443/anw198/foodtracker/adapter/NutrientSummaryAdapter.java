@@ -28,60 +28,9 @@ import edu.utsa.cs3443.anw198.foodtracker.model.units.MassUnit;
 public class NutrientSummaryAdapter extends RecyclerView.Adapter<NutrientSummaryAdapter.NutrientSummaryViewHolder> {
     private Context context;
     private LinkedHashMap<TrackedFood, CompleteFood> foods;
-
-    private final Map<NutrientType, Float> nutrientDailyValues;
-
     private static final int NUTRIENT_TEXT_WEIGHT_DEFAULT = 8;
     private static final int NUTRIENT_TEXT_WEIGHT_INDENT_SINGLE = 7;
     private static final int NUTRIENT_TEXT_WEIGHT_INDENT_DOUBLE = 6;
-
-    private Map<NutrientType, Float> generateNutrientDailyValues() {
-        Map <NutrientType, Float> map = new HashMap<>();
-        Resources res = context.getResources();
-
-        map.put(NutrientType.FAT, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_fat));
-        map.put(NutrientType.FAT_SATURATED, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_fat_saturated));
-        map.put(NutrientType.FAT_TRANS, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_fat_trans));
-        map.put(NutrientType.CHOLESTEROL, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_cholesterol));
-        map.put(NutrientType.SODIUM, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_sodium));
-        map.put(NutrientType.CARBOHYDRATES, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_carbohydrates));
-        map.put(NutrientType.FIBER, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_fiber));
-        map.put(NutrientType.SUGAR, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_sugar));
-        map.put(NutrientType.SUGAR_ADDED, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_sugar_added));
-        map.put(NutrientType.SUGAR_ALCOHOL, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_sugar_alcohol));
-        map.put(NutrientType.PROTEIN, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_protein));
-    
-        map.put(NutrientType.VITAMIN_A, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_vitamin_a));
-        map.put(NutrientType.VITAMIN_B6, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_vitamin_b6));
-        map.put(NutrientType.VITAMIN_B12, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_vitamin_b12));
-        map.put(NutrientType.VITAMIN_C, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_vitamin_c));
-        map.put(NutrientType.VITAMIN_D, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_vitamin_d));
-        map.put(NutrientType.VITAMIN_E, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_vitamin_e));
-        map.put(NutrientType.VITAMIN_K, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_vitamin_k));
-
-        map.put(NutrientType.CALCIUM, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_calcium));
-        map.put(NutrientType.IRON, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_iron));
-        map.put(NutrientType.MAGNESIUM, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_magnesium));
-        map.put(NutrientType.PHOSPHORUS, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_phosphorus));
-        map.put(NutrientType.POTASSIUM, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_potassium));
-        map.put(NutrientType.ZINC, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_zinc));
-        map.put(NutrientType.COPPER, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_copper));
-        map.put(NutrientType.THIAMIN, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_thiamin));
-        map.put(NutrientType.RIBOFLAVIN, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_riboflavin));
-        map.put(NutrientType.NIACIN, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_niacin));
-        map.put(NutrientType.CHOLINE, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_choline));
-        map.put(NutrientType.THEOBROMINE, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_theobromine));
-        map.put(NutrientType.SELENIUM, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_selenium));
-        map.put(NutrientType.RETINOL, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_retinol));
-        map.put(NutrientType.CAROTENE_ALPHA, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_carotene_alpha));
-        map.put(NutrientType.CAROTENE_BETA, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_carotene_beta));
-        map.put(NutrientType.FOLIC_ACID, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_folic_acid));
-        map.put(NutrientType.FOLATE, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_folate));
-        map.put(NutrientType.CAFFEINE, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_caffeine));
-        map.put(NutrientType.ETHYL_ALCOHOL, ResourcesCompat.getFloat(res, R.dimen.nutrient_dv_ethyl_alcohol));
-
-        return map;
-    }
 
     private final Map<Integer, NutrientType> nutrientOrder;
 
@@ -138,7 +87,6 @@ public class NutrientSummaryAdapter extends RecyclerView.Adapter<NutrientSummary
     // you provide access to all the views for a data item in a view holder.
     public NutrientSummaryAdapter(Context context, LinkedHashMap<TrackedFood, CompleteFood> foods) {
         this.context = context;
-        nutrientDailyValues = generateNutrientDailyValues();
         nutrientOrder = generateNutrientOrder();
         this.foods = foods;
     }
@@ -214,7 +162,7 @@ public class NutrientSummaryAdapter extends RecyclerView.Adapter<NutrientSummary
         holder.nutrientText.setText(styledText);
 
         // Daily value
-        Float dv = nutrientDailyValues.get(nutrientType);
+        Float dv = ResourcesCompat.getFloat(context.getResources(), nutrientType.dailyValueResource);
 
         if (dv == null || dv == 0.0f) {
             holder.dvText.setVisibility(View.INVISIBLE);

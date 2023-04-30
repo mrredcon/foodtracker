@@ -137,7 +137,8 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginBottom="@dimen/fda_nutrition_facts_margin_sides"
         android:scrollbars="vertical"
-        app:layoutManager="LinearLayoutManager"/>
+        app:layoutManager="LinearLayoutManager" />
 
 </LinearLayout>
