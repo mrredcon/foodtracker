@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -15,33 +14,141 @@
         android:layout_height="wrap_content"
         android:text="Save" />
 
-    <Spinner
-        android:id="@+id/spinnerServingSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <TextView
-        android:id="@+id/textViewGrams"
+        android:id="@+id/diaryEntryTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="@dimen/fda_nutrition_facts_title_size"
+        android:layout_margin="8dp"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:text="Nutrition Facts"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fda_nutrition_facts_divider_small_size"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:background="@color/fda_nutrition_facts_divider_grey" />
 
     <EditText
         android:id="@+id/editTextQuantity"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8px"
-        android:ems="10"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
         android:hint="amount consumed"
         android:inputType="none|numberDecimal" />
 
-    <TextView
-        android:id="@+id/textViewSaveToDiary"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="400dp"
-        android:padding="16dp"
-        android:scrollbars="horizontal|vertical"
-        android:text="hello" />
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            style="@style/prominentText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Serving size"
+            android:textSize="@dimen/fda_nutrition_facts_serving_size_size"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerServingSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5" />
+
+        <TextView
+            android:id="@+id/textViewGrams"
+            style="@style/prominentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="55 g"
+            android:textSize="@dimen/fda_nutrition_facts_serving_size_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fda_nutrition_facts_divider_extra_large_size"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginBottom="@dimen/fda_nutrition_facts_top_bottom_margin"
+        android:background="?attr/colorOnSurface" />
+
+    <TextView
+        style="@style/prominentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:fontFamily="sans-serif-black"
+        android:text="Amount consumed"
+        android:textSize="@dimen/fda_nutrition_facts_amount_per_serving_size"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:fontFamily="sans-serif-black"
+            android:text="Calories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="@dimen/fda_nutrition_facts_calories_size" />
+
+        <TextView
+            android:id="@+id/diaryEntryCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:gravity="right"
+            android:text="2000"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="@dimen/fda_nutrition_facts_calories_amount_size" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fda_nutrition_facts_divider_medium_size"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginBottom="@dimen/fda_nutrition_facts_top_bottom_margin"
+        android:background="?attr/colorOnSurface" />
+
+    <TextView
+        style="@style/prominentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:fontFamily="sans-serif-black"
+        android:gravity="right"
+        android:text="% Daily Value"
+        android:textSize="@dimen/fda_nutrition_facts_daily_value_size" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/diaryEntryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        app:layoutManager="LinearLayoutManager" />
 
 </LinearLayout>

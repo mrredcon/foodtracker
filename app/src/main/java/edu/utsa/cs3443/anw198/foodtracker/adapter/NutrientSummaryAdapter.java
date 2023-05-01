@@ -32,62 +32,11 @@ public class NutrientSummaryAdapter extends RecyclerView.Adapter<NutrientSummary
     private static final int NUTRIENT_TEXT_WEIGHT_INDENT_SINGLE = 7;
     private static final int NUTRIENT_TEXT_WEIGHT_INDENT_DOUBLE = 6;
 
-    private final Map<Integer, NutrientType> nutrientOrder;
-
-    private Map<Integer, NutrientType> generateNutrientOrder() {
-        Map<Integer, NutrientType> map = new HashMap<>();
-        Resources res = context.getResources();;
-
-        map.put(res.getInteger(R.integer.nutrient_order_fat), NutrientType.FAT);
-        map.put(res.getInteger(R.integer.nutrient_order_fat_saturated), NutrientType.FAT_SATURATED);
-        map.put(res.getInteger(R.integer.nutrient_order_fat_trans), NutrientType.FAT_TRANS);
-        map.put(res.getInteger(R.integer.nutrient_order_cholesterol), NutrientType.CHOLESTEROL);
-        map.put(res.getInteger(R.integer.nutrient_order_sodium), NutrientType.SODIUM);
-        map.put(res.getInteger(R.integer.nutrient_order_carbohydrates), NutrientType.CARBOHYDRATES);
-        map.put(res.getInteger(R.integer.nutrient_order_fiber), NutrientType.FIBER);
-        map.put(res.getInteger(R.integer.nutrient_order_sugar), NutrientType.SUGAR);
-        map.put(res.getInteger(R.integer.nutrient_order_sugar_added), NutrientType.SUGAR_ADDED);
-        map.put(res.getInteger(R.integer.nutrient_order_sugar_alcohol), NutrientType.SUGAR_ALCOHOL);
-        map.put(res.getInteger(R.integer.nutrient_order_protein), NutrientType.PROTEIN);
-
-        map.put(res.getInteger(R.integer.nutrient_order_vitamin_a), NutrientType.VITAMIN_A);
-        map.put(res.getInteger(R.integer.nutrient_order_vitamin_b6), NutrientType.VITAMIN_B6);
-        map.put(res.getInteger(R.integer.nutrient_order_vitamin_b12), NutrientType.VITAMIN_B12);
-        map.put(res.getInteger(R.integer.nutrient_order_vitamin_c), NutrientType.VITAMIN_C);
-        map.put(res.getInteger(R.integer.nutrient_order_vitamin_d), NutrientType.VITAMIN_D);
-        map.put(res.getInteger(R.integer.nutrient_order_vitamin_e), NutrientType.VITAMIN_E);
-        map.put(res.getInteger(R.integer.nutrient_order_vitamin_k), NutrientType.VITAMIN_K);
-        
-        map.put(res.getInteger(R.integer.nutrient_order_calcium), NutrientType.CALCIUM);
-        map.put(res.getInteger(R.integer.nutrient_order_iron), NutrientType.IRON);
-        map.put(res.getInteger(R.integer.nutrient_order_magnesium), NutrientType.MAGNESIUM);
-        map.put(res.getInteger(R.integer.nutrient_order_phosphorus), NutrientType.PHOSPHORUS);
-        map.put(res.getInteger(R.integer.nutrient_order_potassium), NutrientType.POTASSIUM);
-        map.put(res.getInteger(R.integer.nutrient_order_zinc), NutrientType.ZINC);
-        map.put(res.getInteger(R.integer.nutrient_order_copper), NutrientType.COPPER);
-        map.put(res.getInteger(R.integer.nutrient_order_thiamin), NutrientType.THIAMIN);
-        map.put(res.getInteger(R.integer.nutrient_order_riboflavin), NutrientType.RIBOFLAVIN);
-        map.put(res.getInteger(R.integer.nutrient_order_niacin), NutrientType.NIACIN);
-        map.put(res.getInteger(R.integer.nutrient_order_choline), NutrientType.CHOLINE);
-        map.put(res.getInteger(R.integer.nutrient_order_theobromine), NutrientType.THEOBROMINE);
-        map.put(res.getInteger(R.integer.nutrient_order_selenium), NutrientType.SELENIUM);
-        map.put(res.getInteger(R.integer.nutrient_order_retinol), NutrientType.RETINOL);
-        map.put(res.getInteger(R.integer.nutrient_order_carotene_alpha), NutrientType.CAROTENE_ALPHA);
-        map.put(res.getInteger(R.integer.nutrient_order_carotene_beta), NutrientType.CAROTENE_BETA);
-        map.put(res.getInteger(R.integer.nutrient_order_folic_acid), NutrientType.FOLIC_ACID);
-        map.put(res.getInteger(R.integer.nutrient_order_folate), NutrientType.FOLATE);
-        map.put(res.getInteger(R.integer.nutrient_order_caffeine), NutrientType.CAFFEINE);
-        map.put(res.getInteger(R.integer.nutrient_order_ethyl_alcohol), NutrientType.ETHYL_ALCOHOL);
-
-        return map;
-    };
-
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
     public NutrientSummaryAdapter(Context context, LinkedHashMap<TrackedFood, CompleteFood> foods) {
         this.context = context;
-        nutrientOrder = generateNutrientOrder();
         this.foods = foods;
     }
 
@@ -108,7 +57,7 @@ public class NutrientSummaryAdapter extends RecyclerView.Adapter<NutrientSummary
      * Replace the contents of a view
      */
     public void onBindViewHolder(@NonNull NutrientSummaryViewHolder holder, int position) {
-        NutrientType nutrientType = nutrientOrder.get(position);
+        NutrientType nutrientType = NutrientType.getNutrientTypeFromOrder(context, position);
 
         // Handle indents
         LinearLayout.LayoutParams nutrientTextLayoutParams = (LinearLayout.LayoutParams) holder.nutrientText.getLayoutParams();
@@ -193,7 +142,7 @@ public class NutrientSummaryAdapter extends RecyclerView.Adapter<NutrientSummary
      * Return size of data set
      */
     public int getItemCount() {
-        return nutrientOrder.size();
+        return NutrientType.getNutrientOrder(context).size();
     }
 
     public class NutrientSummaryViewHolder extends RecyclerView.ViewHolder {

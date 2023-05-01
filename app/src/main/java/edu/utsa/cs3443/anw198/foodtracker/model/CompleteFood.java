@@ -31,14 +31,14 @@ public class CompleteFood {
         return null;
     }
 
-    public String[] getServingSizeNames() {
-        String[] names = new String[servingSizes.size()];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = servingSizes.get(i).name;
-        }
-
-        return names;
-    }
+//    public String[] getServingSizeNames() {
+//        String[] names = new String[servingSizes.size()];
+//        for (int i = 0; i < names.length; i++) {
+//            names[i] = servingSizes.get(i).name;
+//        }
+//
+//        return names;
+//    }
 
     public ServingSize getServingSizeFromName(String name) {
         if (name == null) {

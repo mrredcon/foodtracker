@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +21,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import edu.utsa.cs3443.anw198.foodtracker.R;
+import edu.utsa.cs3443.anw198.foodtracker.adapter.NutrientSummaryAdapter;
 import edu.utsa.cs3443.anw198.foodtracker.databinding.FragmentDiaryEntryBinding;
 import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodDao;
-import edu.utsa.cs3443.anw198.foodtracker.model.Nutrient;
-import edu.utsa.cs3443.anw198.foodtracker.model.NutrientType;
 import edu.utsa.cs3443.anw198.foodtracker.model.ServingSize;
 import edu.utsa.cs3443.anw198.foodtracker.model.TrackedFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.units.VolumeUnit;
@@ -51,6 +49,7 @@ public class DiaryEntryFragment extends Fragment {
     private String baseUnitName;
     private Spinner dropdown;
     private TrackedFoodsViewModel trackedFoodsViewModel;
+    private ServingSize selectedServingSize;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +71,8 @@ public class DiaryEntryFragment extends Fragment {
         dropdown = getView().findViewById(R.id.spinnerServingSize);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                selectedServingSize = completeFood.servingSizes.get(position);
                 String key = (String)adapterView.getSelectedItem();
                 EditText quantityInput = getView().findViewById(R.id.editTextQuantity);
 
@@ -113,7 +113,7 @@ public class DiaryEntryFragment extends Fragment {
 
                 String baseUnitAbv = getContext().getText(completeFood.food.getBaseUnit().getAbbreviationResource()).toString();
 
-                updateFoodInfo(baseUnitCalc);
+                updateFoodInfo(quantityInput);
                 gramsDisplay.setText(baseUnitCalc + " " + baseUnitAbv);
             }
         });
@@ -138,31 +138,28 @@ public class DiaryEntryFragment extends Fragment {
         return quantityInput;
     }
 
-    private void save() {
+    private TrackedFood buildTrackedFood(double quantity) {
         TrackedFood trackedFood = new TrackedFood();
         trackedFood.foodId = completeFood.food.id;
         trackedFood.dateConsumed = new Date();
+        trackedFood.servingSizeId = selectedServingSize.id;
+        trackedFood.amount = quantity;
+        return trackedFood;
+    }
 
-        String selectedItem = (String)dropdown.getSelectedItem();
-        if (selectedItem == null) {
-            return;
-        }
-
-        trackedFood.servingSizeId = completeFood.getServingSizeFromName(selectedItem).id;
-
+    private void save() {
         EditText quantityEditText = getView().findViewById(R.id.editTextQuantity);
         Double quantityInput = getQuantityInput(quantityEditText.getText());
 
         // User's quantity input is valid, go ahead and save
         if (quantityInput != null) {
-            trackedFood.amount = quantityInput;
             // save it to db and go back one page in the UI
             FoodDao dao = DbProvider.getInstance().foodDao();
 
             Fragment frag = this;
             Thread thread = new Thread() {
                 public void run() {
-                    dao.insertTrackedFood(trackedFood);
+                    dao.insertTrackedFood(buildTrackedFood(quantityInput));
                     trackedFoodsViewModel.reloadData();
 
                     getActivity().runOnUiThread(() -> {
@@ -229,9 +226,25 @@ public class DiaryEntryFragment extends Fragment {
         //servingSizes.add(new ServingSize(getContext().getString(food.getBaseUnit().getTitleResource()), 1.0, 0));
         ((EditText)getView().findViewById(R.id.editTextQuantity)).setText(String.valueOf(Food.DEFAULT_QUANTITY));
         Spinner dropdown = getView().findViewById(R.id.spinnerServingSize);
-        String[] choices = completeFood.getServingSizeNames();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, choices);
+
+        int size = completeFood.servingSizes.size();
+        if (size == 0) {
+            completeFood.servingSizes.add(new ServingSize(baseUnitName, 1.0));
+            size = 1;
+        }
+
+        String[] servingSizeNames = new String[size];
+        for (int i = 0; i < size; i++) {
+            ServingSize servingSize = completeFood.servingSizes.get(i);
+            servingSizeNames[i] = servingSize.name;
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                servingSizeNames);
+
         dropdown.setAdapter(adapter);
+        selectedServingSize = completeFood.servingSizes.get(0);
     }
 
     private String[] getBuiltInUnits() {
@@ -247,31 +260,21 @@ public class DiaryEntryFragment extends Fragment {
     }
 
     private void updateFoodInfo(double quantity) {
-        TextView textView = getView().findViewById(R.id.textViewSaveToDiary);
-        textView.setMovementMethod(new ScrollingMovementMethod());
+        LinkedHashMap<TrackedFood, CompleteFood> foods = new LinkedHashMap<>();
+        TrackedFood trackedFood = buildTrackedFood(quantity);
+        foods.put(trackedFood, completeFood);
 
-        // Food assumes 100 grams/mL/baseUnit
-        double multiplier = quantity / Food.DEFAULT_QUANTITY;
+        TextView title = getView().findViewById(R.id.diaryEntryTitle);
+        title.setText(completeFood.food.getName());
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Name: ").append(completeFood.food.getName()).append("\n");
-        sb.append("Calories: ");
-        sb.append(String.format(Locale.getDefault(), "%.1f", completeFood.food.getCalories() * multiplier)).append("\n");
+        double calories = trackedFood.getMultiplier(completeFood) * completeFood.food.getCalories();
+        TextView caloriesText = getView().findViewById(R.id.diaryEntryCalories);
+        caloriesText.setText(String.format(Locale.US, "%,.0f", calories));
 
-        sb.append("\nNutrients:\n");
-        for (Nutrient nutrient : completeFood.nutrients) {
-            NutrientType type = nutrient.nutrientType;
-            String nutrientName = getContext().getText(type.stringResource).toString();
-            sb.append("\t").append(nutrientName).append(": ");
-            Double nutrientValue = new BigDecimal(nutrient.amount * multiplier)
-                    .setScale(2, RoundingMode.HALF_UP).doubleValue();
-
-            sb.append(nutrientValue).append(" ");
-            String nutritionAbv = getContext().getText(Nutrient.NUTRIENT_UNITS.get(type).getAbbreviationResource()).toString();
-            sb.append(nutritionAbv).append("\n");
-        }
-
-        textView.setText(sb.toString());
+        RecyclerView recyclerView = getView().findViewById(R.id.diaryEntryRecyclerView);
+        recyclerView.setAdapter(new NutrientSummaryAdapter(getContext(), foods));
+        // Show every nutrient, if the user has not ate any of it, just put 0.
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
