@@ -50,8 +50,12 @@ public class UsdaFoodProvider implements FoodProvider {
         map.put(1090, NutrientType.MAGNESIUM);
         map.put(1091, NutrientType.PHOSPHORUS);
         map.put(1093, NutrientType.SODIUM);
+        map.put(1096, NutrientType.CHROMIUM);
         map.put(1095, NutrientType.ZINC);
         map.put(1098, NutrientType.COPPER);
+        map.put(1100, NutrientType.IODINE);
+        map.put(1101, NutrientType.MANGANESE);
+        map.put(1102, NutrientType.MOLYBDENUM);
         map.put(1103, NutrientType.SELENIUM);
         map.put(1105, NutrientType.RETINOL);
         map.put(1106, NutrientType.VITAMIN_A);
@@ -62,7 +66,9 @@ public class UsdaFoodProvider implements FoodProvider {
         map.put(1162, NutrientType.VITAMIN_C);
         map.put(1165, NutrientType.THIAMIN);
         map.put(1166, NutrientType.RIBOFLAVIN);
+        map.put(1170, NutrientType.PANTOTHENIC_ACID);
         map.put(1175, NutrientType.VITAMIN_B6);
+        map.put(1176, NutrientType.BIOTIN);
         map.put(1177, NutrientType.FOLATE);
         map.put(1178, NutrientType.VITAMIN_B12);
         map.put(1180, NutrientType.CHOLINE);

@@ -40,4 +40,11 @@
     <integer name="nutrient_order_folate">35</integer>
     <integer name="nutrient_order_caffeine">36</integer>
     <integer name="nutrient_order_ethyl_alcohol">37</integer>
+    <integer name="nutrient_order_manganese">38</integer>
+    <integer name="nutrient_order_biotin">39</integer>
+    <integer name="nutrient_order_chloride">40</integer>
+    <integer name="nutrient_order_chromium">41</integer>
+    <integer name="nutrient_order_molybdenum">42</integer>
+    <integer name="nutrient_order_pantothenic_acid">43</integer>
+    <integer name="nutrient_order_iodine">44</integer>
 </resources>

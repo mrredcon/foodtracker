@@ -118,6 +118,13 @@ public enum NutrientType {
         map.put(res.getInteger(R.integer.nutrient_order_folate), NutrientType.FOLATE);
         map.put(res.getInteger(R.integer.nutrient_order_caffeine), NutrientType.CAFFEINE);
         map.put(res.getInteger(R.integer.nutrient_order_ethyl_alcohol), NutrientType.ETHYL_ALCOHOL);
+        map.put(res.getInteger(R.integer.nutrient_order_manganese), NutrientType.MANGANESE);
+        map.put(res.getInteger(R.integer.nutrient_order_biotin), NutrientType.BIOTIN);
+        map.put(res.getInteger(R.integer.nutrient_order_chloride), NutrientType.CHLORIDE);
+        map.put(res.getInteger(R.integer.nutrient_order_chromium), NutrientType.CHROMIUM);
+        map.put(res.getInteger(R.integer.nutrient_order_molybdenum), NutrientType.MOLYBDENUM);
+        map.put(res.getInteger(R.integer.nutrient_order_pantothenic_acid), NutrientType.PANTOTHENIC_ACID);
+        map.put(res.getInteger(R.integer.nutrient_order_iodine), NutrientType.IODINE);
 
         nutrientOrder = map;
         return map;
