@@ -51,7 +51,8 @@
                 android:paddingBottom="8dp"
                 android:text="03:33 PM"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 

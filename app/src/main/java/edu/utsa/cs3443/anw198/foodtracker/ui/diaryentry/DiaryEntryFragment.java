@@ -141,7 +141,7 @@ public class DiaryEntryFragment extends Fragment {
     private TrackedFood buildTrackedFood(double quantity) {
         TrackedFood trackedFood = new TrackedFood();
         trackedFood.foodId = completeFood.food.id;
-        trackedFood.dateConsumed = new Date();
+        trackedFood.dateConsumed = trackedFoodsViewModel.getDate().getTime();
         trackedFood.servingSizeId = selectedServingSize.id;
         trackedFood.amount = quantity;
         return trackedFood;

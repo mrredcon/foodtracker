@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private SearchFoodViewModel searchFoodViewModel;
     private TrackedFoodsViewModel trackedFoodsViewModel;
-    private Calendar today;
+    //private Calendar today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         searchFoodViewModel = new ViewModelProvider(this).get(SearchFoodViewModel.class);
 
-        today = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
         trackedFoodsViewModel = new ViewModelProvider(this).get(TrackedFoodsViewModel.class);
         trackedFoodsViewModel.setDateAndReloadData(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
     }
@@ -147,11 +147,12 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(R.id.nav_settings);
             return true;
         } else if (item.getItemId() == R.id.action_calendar) {
+            Calendar cal = trackedFoodsViewModel.getDate();
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, 0,
                     (datePicker, year, month, day) -> trackedFoodsViewModel.setDateAndReloadData(year, month, day),
-                    today.get(Calendar.YEAR),
-                    today.get(Calendar.MONTH),
-                    today.get(Calendar.DAY_OF_MONTH));
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH));
 
             datePickerDialog.show();
             return true;

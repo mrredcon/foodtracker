@@ -8,18 +8,12 @@
     android:orientation="vertical"
     android:overScrollMode="ifContentScrolls">
 
-    <Button
-        android:id="@+id/buttonSaveToDiary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save" />
-
     <TextView
         android:id="@+id/diaryEntryTitle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fda_nutrition_facts_title_size"
-        android:layout_margin="8dp"
         android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
         android:text="Nutrition Facts"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -30,17 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/fda_nutrition_facts_divider_small_size"
         android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginBottom="@dimen/fda_nutrition_facts_top_bottom_margin"
         android:background="@color/fda_nutrition_facts_divider_grey" />
-
-    <EditText
-        android:id="@+id/editTextQuantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
-        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
-        android:hint="amount consumed"
-        android:inputType="none|numberDecimal" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,6 +64,31 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTextQuantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+            android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
+            android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+            android:layout_weight="1"
+            android:hint="amount consumed"
+            android:inputType="none|numberDecimal" />
+
+        <Button
+            android:id="@+id/buttonSaveToDiary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
+            android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+            android:text="Save" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/fda_nutrition_facts_divider_extra_large_size"
@@ -95,7 +107,8 @@
         android:fontFamily="sans-serif-black"
         android:text="Amount consumed"
         android:textSize="@dimen/fda_nutrition_facts_amount_per_serving_size"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"

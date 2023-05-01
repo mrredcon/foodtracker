@@ -30,6 +30,10 @@ public class TrackedFoodsViewModel extends ViewModel {
         return liveDataFoods;
     }
 
+    public Calendar getDate() {
+        return startDate;
+    }
+
     public void setDateAndReloadData(int year, int month, int date) {
         startDate.set(year, month, date);
         startDate.set(Calendar.HOUR_OF_DAY, 0);
