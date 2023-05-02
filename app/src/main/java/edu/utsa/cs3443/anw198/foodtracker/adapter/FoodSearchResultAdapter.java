@@ -71,7 +71,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
             navController.navigate(R.id.nav_diary_entry);
 
             DiaryEntryViewModel diaryEntryViewModel = new ViewModelProvider(activity).get(DiaryEntryViewModel.class);
-            FoodProvider provider = new UsdaFoodProvider();
+            FoodProvider provider = new UsdaFoodProvider(activity);
             diaryEntryViewModel.beginSearch(provider);
             provider.loadFood(result.getId(), diaryEntryViewModel);
         });

@@ -1,5 +1,7 @@
 package edu.utsa.cs3443.anw198.foodtracker.providers.usda;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import retrofit2.Response;
 
 public class UsdaFoodProvider implements FoodProvider {
     private Call<UsdaFood> callAsync;
+    private Context context;
 
     private static final Map<Integer, NutrientType> fdcIdToNutrient = createFdcNutrientIds();
 
@@ -79,21 +82,25 @@ public class UsdaFoodProvider implements FoodProvider {
         return map;
     }
 
-    public UsdaFoodProvider() {
+    public UsdaFoodProvider(Context context) {
         callAsync = null;
+        this.context = context;
     }
 
     private MassUnit abbreviationToMassUnit(String abbreviation) {
-        switch(abbreviation) {
-            case "g": return MassUnit.GRAMS;
-            case "mg": return MassUnit.MILLIGRAMS;
+        switch (abbreviation) {
+            case "g":
+                return MassUnit.GRAMS;
+            case "mg":
+                return MassUnit.MILLIGRAMS;
             // µg: Micro Sign (U+00B5)
             case "\u00B5g":
             // μg: Greek Small Letter Mu (U+03BC)
-            case "\u03BCg": return MassUnit.MICROGRAMS;
+            case "\u03BCg":
+                return MassUnit.MICROGRAMS;
         }
-        //Log.e("Nom", "Returning null for input: " + abbreviation);
-        throw new RuntimeException("UsdaFoodProvider: Failed to convert unit abbreviation!");
+
+        throw new RuntimeException("UsdaFoodProvider: Failed to convert unit abbreviation: " + abbreviation);
     }
 
     @Override
@@ -106,20 +113,26 @@ public class UsdaFoodProvider implements FoodProvider {
             public void onResponse(@NonNull Call<UsdaFood> call, @NonNull Response<UsdaFood> response) {
                 UsdaFood usdaFood = response.body();
 
-                if (usdaFood.getDataType() == null || usdaFood.getDataType().isEmpty()) {
+                if (usdaFood == null || usdaFood.getDataType() == null || usdaFood.getDataType().isEmpty()) {
                     onFailure(call, new RuntimeException("USDA returned an unknown object."));
                     return;
                 }
 
+                boolean isBranded = usdaFood.getDataType().equals("Branded");
                 Food food;
 
-                if (usdaFood.getDataType().equals("Branded") && usdaFood.getServingSizeUnit().equals("ml")) {
+                if (isBranded && usdaFood.getServingSizeUnit().equals("ml")) {
                     food = new Food(true);
                 } else {
                     food = new Food(false);
                 }
 
-                food.setName(usdaFood.getDescription());
+                if (isBranded) {
+                    food.setName(usdaFood.getBrandName() + " " + usdaFood.getDescription());
+                } else {
+                    food.setName(usdaFood.getDescription());
+                }
+
                 food.setOnlineId(usdaFood.getFdcId());
                 food.setOrigin(DataOrigin.USDA);
 
@@ -143,7 +156,7 @@ public class UsdaFoodProvider implements FoodProvider {
                 }
 
                 List<ServingSize> servingSizes = new ArrayList<>();
-                if (usdaFood.getDataType().equals("Branded")) {
+                if (isBranded) {
                     String servingTitle = usdaFood.getHouseholdServingFullText();
                     if (servingTitle == null)
                         servingTitle = "Manufacturer set size";
@@ -152,10 +165,9 @@ public class UsdaFoodProvider implements FoodProvider {
                     if (servingSizeAmount != null) {
                         servingSizes.add(new ServingSize(servingTitle, servingSizeAmount));
                     } else {
-                        // TODO: Handle missing serving size from USDA
-                        //servingSizes.add(new ServingSize(food.getBaseUnit().getTitleResource())
+                        String baseUnitName = context.getString(food.getBaseUnit().getTitleResource());
+                        servingSizes.add(new ServingSize(baseUnitName, 1.0));
                     }
-
                 } else {
                     for (UsdaFoodPortion portion : usdaFood.getFoodPortions()) {
                         String portionDescription = portion.getPortionDescription();
@@ -187,8 +199,7 @@ public class UsdaFoodProvider implements FoodProvider {
 
                         for (ServingSize servingSize : servingSizes) {
                             servingSize.foodId = foodId;
-                            long servingSizeId = dao.insertServingSize(servingSize);
-                            servingSize.id = servingSizeId;
+                            servingSize.id = dao.insertServingSize(servingSize);
                         }
 
                         for (Nutrient nutrient : nutrients)

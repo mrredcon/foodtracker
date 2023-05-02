@@ -7,21 +7,21 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="fda_nutrition_facts_title_size">36sp</dimen>
-    <dimen name="fda_nutrition_facts_divider_small_size">2sp</dimen>
+    <dimen name="fda_nutrition_facts_divider_small_size">2dp</dimen>
     <dimen name="fda_nutrition_facts_servings_per_container_size">20sp</dimen>
     <dimen name="fda_nutrition_facts_serving_size_size">20sp</dimen>
-    <dimen name="fda_nutrition_facts_divider_extra_large_size">20sp</dimen>
+    <dimen name="fda_nutrition_facts_divider_extra_large_size">20dp</dimen>
     <dimen name="fda_nutrition_facts_amount_per_serving_size">16sp</dimen>
     <dimen name="fda_nutrition_facts_calories_size">30sp</dimen>
     <dimen name="fda_nutrition_facts_calories_amount_size">38sp</dimen>
-    <dimen name="fda_nutrition_facts_divider_medium_size">8sp</dimen>
+    <dimen name="fda_nutrition_facts_divider_medium_size">8dp</dimen>
     <dimen name="fda_nutrition_facts_daily_value_size">13sp</dimen>
     <dimen name="fda_nutrition_facts_macros_size">16sp</dimen>
     <dimen name="fda_nutrition_facts_macros_height">280sp</dimen>
-    <dimen name="fda_nutrition_facts_divider_large_size">18sp</dimen>
+    <dimen name="fda_nutrition_facts_divider_large_size">18dp</dimen>
     <dimen name="fda_nutrition_facts_micro_nutrients_size">16sp</dimen>
     <dimen name="fda_nutrition_facts_micro_nutrients_height">112sp</dimen>
-    <dimen name="fda_nutrition_facts_divider_medium_small_size">10sp</dimen>
+    <dimen name="fda_nutrition_facts_divider_medium_small_size">10dp</dimen>
     <dimen name="fda_nutrition_facts_text_size">12sp</dimen>
     <dimen name="fda_nutrition_facts_text_height">64sp</dimen>
     <dimen name="fda_nutrition_facts_nutrient_item_height">38sp</dimen>

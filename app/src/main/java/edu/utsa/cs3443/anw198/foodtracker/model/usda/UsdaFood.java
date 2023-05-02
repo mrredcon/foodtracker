@@ -13,6 +13,7 @@ public class UsdaFood {
     private String servingSizeUnit;
     //private String packageWeight;
     private String householdServingFullText;
+    private String brandName;
 
     // SR Legacy, Survey (FNDDS), Foundation
     private UsdaFoodPortion[] foodPortions;
@@ -87,5 +88,13 @@ public class UsdaFood {
 
     public void setFoodPortions(UsdaFoodPortion[] foodPortions) {
         this.foodPortions = foodPortions;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 }
