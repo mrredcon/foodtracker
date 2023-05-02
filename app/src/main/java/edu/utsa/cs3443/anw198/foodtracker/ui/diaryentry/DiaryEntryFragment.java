@@ -86,17 +86,9 @@ public class DiaryEntryFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 selectedServingSize = completeFood.servingSizes.get(position);
-                String key = (String)adapterView.getSelectedItem();
                 EditText quantityInput = getView().findViewById(R.id.editTextQuantity);
-
-                // If the selected dropdown item is the base unit (like grams),
-                // set the suggested amount to default quantity (like 100 grams)
                 if (!editing) {
-                    if (key.equals(baseUnitName)) {
-                        quantityInput.setText(String.valueOf(Food.DEFAULT_QUANTITY));
-                    } else {
-                        quantityInput.setText(String.valueOf(1.0));
-                    }
+                    quantityInput.setText(String.valueOf(1.0));
                 }
             }
 
@@ -260,13 +252,15 @@ public class DiaryEntryFragment extends Fragment {
                 quantityInput.setText(String.valueOf(amt));
                 updateFoodInfo(amt);
             } else {
-                updateFoodInfo(Food.DEFAULT_QUANTITY);
+                updateFoodInfo(1.0);
             }
         });
 
         diaryEntryViewModel.getErrorMessage().observe(this, errorMessage -> {
-            if (!errorMessage.equals("Canceled")) {
+            if (!(errorMessage.equals("Canceled") /*|| errorMessage.equals("timeout")*/)) {
                 Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.navigateUp();
             }
         });
     }
@@ -274,7 +268,7 @@ public class DiaryEntryFragment extends Fragment {
     void setupFoodServingSizes() {
         // TODO: handle adding default units
         //servingSizes.add(new ServingSize(getContext().getString(food.getBaseUnit().getTitleResource()), 1.0, 0));
-        ((EditText)getView().findViewById(R.id.editTextQuantity)).setText(String.valueOf(Food.DEFAULT_QUANTITY));
+        ((EditText)getView().findViewById(R.id.editTextQuantity)).setText(String.valueOf(1.0));
         Spinner dropdown = getView().findViewById(R.id.spinnerServingSize);
 
         int size = completeFood.servingSizes.size();

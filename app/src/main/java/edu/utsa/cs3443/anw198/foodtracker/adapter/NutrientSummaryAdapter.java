@@ -115,7 +115,7 @@ public class NutrientSummaryAdapter extends RecyclerView.Adapter<NutrientSummary
         } else {
             holder.dvText.setVisibility(View.VISIBLE);
             double percent = (sum / dv) * 100;
-            holder.dvText.setText(context.getString(R.string.home_dv, percent));
+            holder.dvText.setText(context.getString(R.string.nutrient_daily_value_format, percent));
         }
     }
 

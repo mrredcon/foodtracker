@@ -14,7 +14,7 @@
         android:layout_margin="8dp"
         android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
-        android:text="Nom"
+        android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="@dimen/fda_nutrition_facts_title_size"
         android:textStyle="bold" />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
-        android:text="8 foods tracked"
+        android:text="@string/home_foods_tracked"
         android:textSize="@dimen/fda_nutrition_facts_servings_per_container_size" />
 
     <LinearLayout
@@ -48,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:text="Mass consumed"
+            android:text="@string/home_mass_consumed"
             android:textSize="@dimen/fda_nutrition_facts_serving_size_size"
             android:textStyle="bold" />
 
@@ -58,8 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
-            android:text="55 g"
+            android:gravity="end"
+            android:text="@string/home_mass_consumed_placeholder"
             android:textSize="@dimen/fda_nutrition_facts_serving_size_size"
             android:textStyle="bold" />
     </LinearLayout>
@@ -80,7 +80,7 @@
         android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
         android:fontFamily="sans-serif-black"
-        android:text="Nutrition summary"
+        android:text="@string/home_nutrient_summary"
         android:textSize="@dimen/fda_nutrition_facts_amount_per_serving_size"
         android:textStyle="bold" />
 
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="9"
             android:fontFamily="sans-serif-black"
-            android:text="Calories"
+            android:text="@string/nutrient_calorie"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="@dimen/fda_nutrition_facts_calories_size" />
 
@@ -106,8 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="sans-serif-black"
-            android:gravity="right"
-            android:text="2000"
+            android:gravity="end"
+            android:text="@string/zero_placeholder"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="@dimen/fda_nutrition_facts_calories_amount_size" />
     </LinearLayout>
@@ -127,16 +127,14 @@
         android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
         android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
         android:fontFamily="sans-serif-black"
-        android:gravity="right"
-        android:text="% Daily Value"
+        android:gravity="end"
+        android:text="@string/daily_value"
         android:textSize="@dimen/fda_nutrition_facts_daily_value_size" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
-        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
         android:layout_marginBottom="@dimen/fda_nutrition_facts_margin_sides"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager" />

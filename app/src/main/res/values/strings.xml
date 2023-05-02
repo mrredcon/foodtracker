@@ -17,8 +17,14 @@
 
     <string name="button_calendar">Open Calendar</string>
 
+    <string name="home_foods_tracked">0 foods tracked</string>
     <string name="home_foods_tracked_single">%1$d food tracked</string>
     <string name="home_foods_tracked_plural">%1$d foods tracked</string>
+
+    <string name="home_nutrient_summary">Nutrition summary</string>
+    <string name="home_mass_consumed">Mass consumed</string>
+    <string name="home_mass_consumed_placeholder">0 g</string>
+    <string name="zero_placeholder">0</string>
 
     <string name="foodsearchresult_macros">Calories: %1$.0f / Fat: %2$,.1f / Carbs: %3$,.1f / Protein: %4$,.1f</string>
 
@@ -26,10 +32,21 @@
     <string name="diary_servings_single">%1$s (%2$,.1f %3$s)</string>
     <string name="diary_calories">%1$.0f</string>
 
+    <string name="nutrition_facts">Nutrition Facts</string>
+    <string name="serving_size">Serving size</string>
+    <string name="amount_consumed">Amount</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+
+    <string name="diary_entry_multiply_sign">*</string>
+
     <string name="home_nutrient_bold">&lt;b>%1$s&lt;/b>  %2$.0f %3$s</string>
     <string name="home_nutrient_italic">&lt;i>%1$s&lt;/i>  %2$.0f %3$s</string>
     <string name="home_nutrient">%1$s  %2$.0f %3$s</string>
-    <string name="home_dv">%1$.0f%%</string>
+
+    <string name="daily_value">% Daily Value</string>
+    <!-- Double percent sign %% escapes into a single percent -->
+    <string name="nutrient_daily_value_format">%1$.0f%%</string>
 
     <string name="unit_grams">Grams</string>
     <string name="unit_micrograms">Micrograms</string>
