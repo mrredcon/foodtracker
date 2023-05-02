@@ -17,6 +17,9 @@
 
     <string name="button_calendar">Open Calendar</string>
 
+    <string name="home_foods_tracked_single">%1$d food tracked</string>
+    <string name="home_foods_tracked_plural">%1$d foods tracked</string>
+
     <string name="foodsearchresult_macros">Calories: %1$.0f / Fat: %2$,.1f / Carbs: %3$,.1f / Protein: %4$,.1f</string>
 
     <string name="diary_servings">%1$,.1f * %2$s (%3$,.1f %4$s)</string>
@@ -112,8 +115,6 @@
     <string name="nutrient_vitamin_d">Vitamin D</string>
     <string name="nutrient_vitamin_e">Vitamin E</string>
     <string name="nutrient_vitamin_k">Vitamin K</string>
-
-
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

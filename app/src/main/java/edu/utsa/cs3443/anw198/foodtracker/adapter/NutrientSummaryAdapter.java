@@ -1,7 +1,6 @@
 package edu.utsa.cs3443.anw198.foodtracker.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.model.CompleteFood;

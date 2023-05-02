@@ -67,13 +67,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/editTextQuantity"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+            android:layout_height="@dimen/diary_entry_amount_consumed_height"
             android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
             android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
             android:layout_weight="1"
@@ -83,10 +84,21 @@
         <Button
             android:id="@+id/buttonSaveToDiary"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/diary_entry_amount_consumed_height"
             android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
-            android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
             android:text="Save" />
+
+        <Button
+            android:id="@+id/buttonDeleteEntry"
+            android:layout_width="@dimen/diary_entry_trash_button_width"
+            android:layout_height="@dimen/diary_entry_amount_consumed_height"
+            android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+            android:layout_marginTop="@dimen/fda_nutrition_facts_top_bottom_margin"
+            android:visibility="visible"
+            app:icon="@drawable/delete"
+            app:iconGravity="textEnd"
+            app:iconPadding="0dp"
+            app:iconSize="@dimen/diary_entry_trash_button_icon_size" />
     </LinearLayout>
 
     <View

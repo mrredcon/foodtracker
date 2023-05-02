@@ -48,7 +48,7 @@ public class DiaryFragment extends Fragment {
 
     private void populateUI(LinkedHashMap<TrackedFood, CompleteFood> foods) {
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerViewDiary);
-        recyclerView.setAdapter(new DiaryAdapter(trackedFoodsViewModel, foods));
+        recyclerView.setAdapter(new DiaryAdapter(getActivity(), trackedFoodsViewModel, foods));
         // User can delete diary entries
         recyclerView.setHasFixedSize(false);
     }

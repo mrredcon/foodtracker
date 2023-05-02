@@ -29,6 +29,10 @@
     <dimen name="fda_nutrition_facts_top_bottom_margin">6dp</dimen>
     <dimen name="fda_nutrition_facts_margin_sides">8dp</dimen>
 
+    <dimen name="diary_entry_amount_consumed_height">48dp</dimen>
+    <dimen name="diary_entry_trash_button_icon_size">22dp</dimen>
+    <dimen name="diary_entry_trash_button_width">48dp</dimen>
+
     <item format="float" type="dimen" name="nutrient_dv_fat">78</item>
     <item format="float" type="dimen" name="nutrient_dv_fat_saturated">20</item>
     <item format="float" type="dimen" name="nutrient_dv_fat_trans">0</item>

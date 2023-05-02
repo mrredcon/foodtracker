@@ -1,6 +1,5 @@
 package edu.utsa.cs3443.anw198.foodtracker.adapter;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -22,15 +25,18 @@ import edu.utsa.cs3443.anw198.foodtracker.model.Food;
 import edu.utsa.cs3443.anw198.foodtracker.model.ServingSize;
 import edu.utsa.cs3443.anw198.foodtracker.model.TrackedFood;
 import edu.utsa.cs3443.anw198.foodtracker.ui.TrackedFoodsViewModel;
+import edu.utsa.cs3443.anw198.foodtracker.ui.diaryentry.DiaryEntryViewModel;
 
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder> {
+    private FragmentActivity activity;
     private TrackedFoodsViewModel trackedFoodsViewModel;
     private LinkedHashMap<TrackedFood, CompleteFood> foods;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
-    public DiaryAdapter(TrackedFoodsViewModel trackedFoodsViewModel, LinkedHashMap<TrackedFood, CompleteFood> foods) {
+    public DiaryAdapter(FragmentActivity activity, TrackedFoodsViewModel trackedFoodsViewModel, LinkedHashMap<TrackedFood, CompleteFood> foods) {
+        this.activity = activity;
         this.trackedFoodsViewModel = trackedFoodsViewModel;
         this.foods = foods;
     }
@@ -83,6 +89,17 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
         holder.textViewTime.setText(formatter.format(trackedFood.dateConsumed));
 
         holder.cardView.setOnClickListener(c -> {
+            NavController navController = Navigation.findNavController(activity, R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.nav_diary_entry);
+
+            DiaryEntryViewModel diaryEntryViewModel = new ViewModelProvider(activity).get(DiaryEntryViewModel.class);
+            diaryEntryViewModel.beginEditing(trackedFood, completeFood);
+
+            //FoodProvider provider = new UsdaFoodProvider();
+            //diaryEntryViewModel.beginSearch();
+            //provider.loadFood(result.getId(), diaryEntryViewModel);
+
+            /*
             AlertDialog.Builder builder = new AlertDialog.Builder(c.getContext());
 
             builder.setTitle("Delete tracked food");
@@ -100,6 +117,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
 
             AlertDialog alert = builder.create();
             alert.show();
+
+             */
         });
     }
 

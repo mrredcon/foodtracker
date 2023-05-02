@@ -68,7 +68,11 @@ public class HomeFragment extends Fragment {
         massText.setText(String.format(Locale.US, "%,.1f g", massSum));
 
         TextView amountTracked = getView().findViewById(R.id.homeFoodsTracked);
-        amountTracked.setText(foodCount + " foods tracked");
+        if (foodCount == 1) {
+            amountTracked.setText(getString(R.string.home_foods_tracked_single, foodCount));
+        } else {
+            amountTracked.setText(getString(R.string.home_foods_tracked_plural, foodCount));
+        }
 
         TextView caloriesText = getView().findViewById(R.id.homeCalories);
         caloriesText.setText(String.format(Locale.US, "%,.0f", caloriesSum));

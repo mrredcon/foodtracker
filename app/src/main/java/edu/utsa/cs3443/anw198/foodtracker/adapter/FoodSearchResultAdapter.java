@@ -72,7 +72,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
 
             DiaryEntryViewModel diaryEntryViewModel = new ViewModelProvider(activity).get(DiaryEntryViewModel.class);
             FoodProvider provider = new UsdaFoodProvider();
-            diaryEntryViewModel.beginSearch();
+            diaryEntryViewModel.beginSearch(provider);
             provider.loadFood(result.getId(), diaryEntryViewModel);
         });
     }

@@ -16,13 +16,13 @@ import edu.utsa.cs3443.anw198.foodtracker.model.FoodDao;
 import edu.utsa.cs3443.anw198.foodtracker.model.Nutrient;
 import edu.utsa.cs3443.anw198.foodtracker.model.NutrientType;
 import edu.utsa.cs3443.anw198.foodtracker.model.ServingSize;
+import edu.utsa.cs3443.anw198.foodtracker.model.units.MassUnit;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaFood;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaFoodNutrient;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaFoodPortion;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaNutrient;
 import edu.utsa.cs3443.anw198.foodtracker.providers.DbProvider;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
-import edu.utsa.cs3443.anw198.foodtracker.model.units.MassUnit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,6 +105,12 @@ public class UsdaFoodProvider implements FoodProvider {
             @Override
             public void onResponse(@NonNull Call<UsdaFood> call, @NonNull Response<UsdaFood> response) {
                 UsdaFood usdaFood = response.body();
+
+                if (usdaFood.getDataType() == null || usdaFood.getDataType().isEmpty()) {
+                    onFailure(call, new RuntimeException("USDA returned an unknown object."));
+                    return;
+                }
+
                 Food food;
 
                 if (usdaFood.getDataType().equals("Branded") && usdaFood.getServingSizeUnit().equals("ml")) {
@@ -142,7 +148,14 @@ public class UsdaFoodProvider implements FoodProvider {
                     if (servingTitle == null)
                         servingTitle = "Manufacturer set size";
 
-                    servingSizes.add(new ServingSize(servingTitle, usdaFood.getServingSize()));
+                    Double servingSizeAmount = usdaFood.getServingSize();
+                    if (servingSizeAmount != null) {
+                        servingSizes.add(new ServingSize(servingTitle, servingSizeAmount));
+                    } else {
+                        // TODO: Handle missing serving size from USDA
+                        //servingSizes.add(new ServingSize(food.getBaseUnit().getTitleResource())
+                    }
+
                 } else {
                     for (UsdaFoodPortion portion : usdaFood.getFoodPortions()) {
                         String portionDescription = portion.getPortionDescription();

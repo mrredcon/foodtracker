@@ -69,7 +69,8 @@ public class SearchFoodFragment extends Fragment {
         builder.setMessage("Searching database, please wait.");
         builder.setTitle("Searching...");
         builder.setCancelable(true);
-        builder.setNegativeButton("Cancel", (dialogInterface, i) -> provider.cancelSearch());
+        builder.setOnCancelListener(dialogInterface -> provider.cancelSearch());
+        builder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
 
         dialog = builder.create();
     }
