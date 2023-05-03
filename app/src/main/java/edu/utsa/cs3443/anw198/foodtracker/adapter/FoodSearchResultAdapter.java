@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.List;
+
 import edu.utsa.cs3443.anw198.foodtracker.R;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.providers.FoodProvider;
@@ -21,14 +23,14 @@ import edu.utsa.cs3443.anw198.foodtracker.providers.usda.UsdaFoodProvider;
 import edu.utsa.cs3443.anw198.foodtracker.ui.diaryentry.DiaryEntryViewModel;
 
 public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResultAdapter.FoodSearchResultViewHolder> {
-    private FoodSearchResult[] searchResults;
+    private List<FoodSearchResult> searchResults;
     private FragmentActivity activity;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
     // Each data item is just a FoodSearchResult object.
-    public FoodSearchResultAdapter(FragmentActivity activity, FoodSearchResult[] searchResults) {
+    public FoodSearchResultAdapter(FragmentActivity activity, List<FoodSearchResult> searchResults) {
         this.searchResults = searchResults;
         this.activity = activity;
     }
@@ -50,7 +52,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
      * Replace the contents of a view
      */
     public void onBindViewHolder(@NonNull FoodSearchResultViewHolder holder, int position) {
-        FoodSearchResult result = searchResults[position];
+        FoodSearchResult result = searchResults.get(position);
         String macroText = holder.textViewTitle.getContext().getString(R.string.foodsearchresult_macros, result.getCalories(), result.getFat(), result.getCarbs(), result.getProtein());
 
         holder.textViewTitle.setText(result.getName());
@@ -82,7 +84,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
      * Return size of data set
      */
     public int getItemCount() {
-        return searchResults.length;
+        return searchResults.size();
     }
 
     public class FoodSearchResultViewHolder extends RecyclerView.ViewHolder {

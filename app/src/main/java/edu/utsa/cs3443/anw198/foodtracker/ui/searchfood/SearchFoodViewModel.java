@@ -4,14 +4,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 import edu.utsa.cs3443.anw198.foodtracker.APIListener;
 import edu.utsa.cs3443.anw198.foodtracker.LoadingStatus;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 
-public class SearchFoodViewModel extends ViewModel implements APIListener<FoodSearchResult[]> {
+public class SearchFoodViewModel extends ViewModel implements APIListener<List<FoodSearchResult>> {
 
     private final MutableLiveData<String> mText;
-    private MutableLiveData<FoodSearchResult[]> searchResults = new MutableLiveData<>();
+    private MutableLiveData<List<FoodSearchResult>> searchResults = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private MutableLiveData<LoadingStatus> searchStatus = new MutableLiveData<>();
 
@@ -23,7 +25,7 @@ public class SearchFoodViewModel extends ViewModel implements APIListener<FoodSe
     public LiveData<String> getText() {
         return mText;
     }
-    public LiveData<FoodSearchResult[]> getSearchResults() { return searchResults; }
+    public LiveData<List<FoodSearchResult>> getSearchResults() { return searchResults; }
     public LiveData<String> getErrorMessage() { return errorMessage; }
     public LiveData<LoadingStatus> getSearchStatus() { return searchStatus; }
 
@@ -32,7 +34,7 @@ public class SearchFoodViewModel extends ViewModel implements APIListener<FoodSe
     }
 
     @Override
-    public void onResponse(FoodSearchResult[] results) {
+    public void onResponse(List<FoodSearchResult> results) {
         searchResults.setValue(results);
         searchStatus.setValue(LoadingStatus.SUCCESS);
     }

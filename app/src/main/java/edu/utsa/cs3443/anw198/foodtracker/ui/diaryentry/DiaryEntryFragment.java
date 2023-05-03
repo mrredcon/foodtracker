@@ -88,7 +88,11 @@ public class DiaryEntryFragment extends Fragment {
                 selectedServingSize = completeFood.servingSizes.get(position);
                 EditText quantityInput = getView().findViewById(R.id.editTextQuantity);
                 if (!editing) {
-                    quantityInput.setText(String.valueOf(1.0));
+                    if (selectedServingSize.name.equals(baseUnitName)) {
+                        quantityInput.setText(String.valueOf(Food.DEFAULT_QUANTITY));
+                    } else {
+                        quantityInput.setText(String.valueOf(1.0));
+                    }
                 }
             }
 
@@ -178,8 +182,10 @@ public class DiaryEntryFragment extends Fragment {
             Thread thread = new Thread() {
                 public void run() {
                     TrackedFood newTrackedFood = buildTrackedFood(quantityInput);
+                    TrackedFood oldTrackedFood = diaryEntryViewModel.getTrackedFood();
                     if (editing) {
-                        newTrackedFood.id = diaryEntryViewModel.getTrackedFood().id;
+                        newTrackedFood.id = oldTrackedFood.id;
+                        newTrackedFood.dateConsumed = oldTrackedFood.dateConsumed;
                     }
 
                     dao.insertTrackedFood(newTrackedFood);
@@ -213,8 +219,13 @@ public class DiaryEntryFragment extends Fragment {
         builder.setCancelable(true);
         builder.setOnCancelListener(dialogInterface -> {
             diaryEntryViewModel.cancelSearch();
-            NavController navController = NavHostFragment.findNavController(this);
-            navController.navigateUp();
+            try {
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.navigateUp();
+            }
+            catch (IllegalStateException ignored) {
+
+            }
         });
         builder.setNegativeButton("Cancel", (dialogInterface, i) -> {
            dialogInterface.cancel();

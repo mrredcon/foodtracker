@@ -1,5 +1,8 @@
 package edu.utsa.cs3443.anw198.foodtracker.providers.usda;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.utsa.cs3443.anw198.foodtracker.APIListener;
 import edu.utsa.cs3443.anw198.foodtracker.model.FoodSearchResult;
 import edu.utsa.cs3443.anw198.foodtracker.model.usda.UsdaSearchResult;
@@ -19,7 +22,7 @@ public class UsdaFoodSearchProvider implements FoodSearchProvider {
     }
 
     //@Override
-    public void searchFoods(String query, APIListener<FoodSearchResult[]> listener) {
+    public void searchFoods(String query, APIListener<List<FoodSearchResult>> listener) {
         UsdaService service = UsdaServiceGenerator.createService(UsdaService.class);
         callAsync = service.searchFoods(query);
 
@@ -28,7 +31,7 @@ public class UsdaFoodSearchProvider implements FoodSearchProvider {
             public void onResponse(Call<UsdaSearchResult> call, Response<UsdaSearchResult> response) {
                 UsdaSearchResult usdaResult = response.body();
                 UsdaSearchResultFood[] usdaResults = usdaResult.getFoods();
-                FoodSearchResult[] results = new FoodSearchResult[usdaResults.length];
+                List<FoodSearchResult> results = new ArrayList<>();
 
                 for (int i = 0; i < usdaResults.length; i++) {
                     UsdaSearchResultFood usdaFood = usdaResults[i];
@@ -45,8 +48,11 @@ public class UsdaFoodSearchProvider implements FoodSearchProvider {
                         calories = nutrient.getNutrientName().equals("Energy") && nutrient.getUnitName().equals("KCAL") ? nutrient.getValue() : calories;
                     }
 
-                    results[i] = new FoodSearchResult(name, brand, id, fat, carbs, protein, calories);
+                    if (calories != null && fat != null && carbs != null && protein != null) {
+                        results.add(new FoodSearchResult(name, brand, id, fat, carbs, protein, calories));
+                    }
                 }
+
                 listener.onResponse(results);
             }
 
