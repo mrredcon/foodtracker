@@ -283,10 +283,6 @@ public class DiaryEntryFragment extends Fragment {
         Spinner dropdown = getView().findViewById(R.id.spinnerServingSize);
 
         int size = completeFood.servingSizes.size();
-        if (size == 0) {
-            completeFood.servingSizes.add(new ServingSize(baseUnitName, 1.0));
-            size = 1;
-        }
 
         int selectedIndex = 0;
         selectedServingSize = completeFood.servingSizes.get(0);

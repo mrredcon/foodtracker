@@ -158,15 +158,12 @@ public class UsdaFoodProvider implements FoodProvider {
                 List<ServingSize> servingSizes = new ArrayList<>();
                 if (isBranded) {
                     String servingTitle = usdaFood.getHouseholdServingFullText();
-                    if (servingTitle == null)
+                    if (servingTitle == null || servingTitle.isEmpty())
                         servingTitle = "Manufacturer set size";
 
                     Double servingSizeAmount = usdaFood.getServingSize();
                     if (servingSizeAmount != null) {
                         servingSizes.add(new ServingSize(servingTitle, servingSizeAmount));
-                    } else {
-                        String baseUnitName = context.getString(food.getBaseUnit().getTitleResource());
-                        servingSizes.add(new ServingSize(baseUnitName, 1.0));
                     }
                 } else {
                     for (UsdaFoodPortion portion : usdaFood.getFoodPortions()) {
@@ -179,6 +176,10 @@ public class UsdaFoodProvider implements FoodProvider {
                             servingSizes.add(new ServingSize(servingSizeName, portion.getGramWeight()));
                         }
                     }
+                }
+
+                if (servingSizes.size() == 0) {
+                    servingSizes.add(new ServingSize(context.getString(food.getBaseUnit().getTitleResource()), 1.0));
                 }
 
                 Thread thread = new Thread() {
