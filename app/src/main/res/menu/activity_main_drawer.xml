@@ -10,7 +10,7 @@
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_searchfood"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="?android:attr/actionModeWebSearchDrawable"
             android:title="@string/menu_searchfood" />
         <item
             android:id="@+id/nav_diary"
