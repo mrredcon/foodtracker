@@ -37,8 +37,10 @@
     <string name="amount_consumed">Amount</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 
     <string name="diary_entry_multiply_sign">*</string>
+    <string name="diary_entry_error">Error: %1$s</string>
 
     <string name="home_nutrient_bold">&lt;b>%1$s&lt;/b>  %2$.0f %3$s</string>
     <string name="home_nutrient_italic">&lt;i>%1$s&lt;/i>  %2$.0f %3$s</string>

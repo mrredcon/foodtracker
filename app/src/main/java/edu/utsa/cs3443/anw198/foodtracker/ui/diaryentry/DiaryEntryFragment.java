@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,6 +62,11 @@ public class DiaryEntryFragment extends Fragment {
         return root;
     }
 
+    private void navigateUp(Fragment fragment) {
+        NavController navController = NavHostFragment.findNavController(fragment);
+        navController.navigateUp();
+    }
+
     private void setupDeleteButton() {
         Button deleteButton = getView().findViewById(R.id.buttonDeleteEntry);
         if (editing) {
@@ -70,12 +74,17 @@ public class DiaryEntryFragment extends Fragment {
             deleteButton.setVisibility(View.VISIBLE);
             deleteButton.setOnClickListener(view -> {
                 trackedFoodsViewModel.deleteTrackedFood(tf);
-                NavController navController = NavHostFragment.findNavController(this);
-                navController.navigateUp();
+                navigateUp(this);
             });
         } else {
             deleteButton.setVisibility(View.GONE);
         }
+    }
+
+    private void setupSaveButton() {
+        Button saveButton = getView().findViewById(R.id.buttonSaveToDiary);
+        saveButton.setOnClickListener(btn -> save());
+        saveButton.setText(getString(R.string.save));
     }
 
     @Override
@@ -127,11 +136,6 @@ public class DiaryEntryFragment extends Fragment {
                 updateFoodInfo(quantityInput);
                 gramsDisplay.setText(baseUnitCalc + " " + baseUnitAbv);
             }
-        });
-
-        Button saveButton = getView().findViewById(R.id.buttonSaveToDiary);
-        saveButton.setOnClickListener(btn -> {
-            save();
         });
     }
 
@@ -193,8 +197,7 @@ public class DiaryEntryFragment extends Fragment {
                     trackedFoodsViewModel.reloadData();
 
                     getActivity().runOnUiThread(() -> {
-                        NavController navController = NavHostFragment.findNavController(frag);
-                        navController.navigateUp();
+                        navigateUp(frag);
                     });
                 }
             };
@@ -217,16 +220,7 @@ public class DiaryEntryFragment extends Fragment {
         builder.setMessage("Loading food, please wait.");
         builder.setTitle("Loading...");
         builder.setCancelable(true);
-        builder.setOnCancelListener(dialogInterface -> {
-            diaryEntryViewModel.cancelSearch();
-            try {
-                NavController navController = NavHostFragment.findNavController(this);
-                navController.navigateUp();
-            }
-            catch (IllegalStateException ignored) {
-
-            }
-        });
+        builder.setOnCancelListener(dialogInterface -> diaryEntryViewModel.cancelSearch());
         builder.setNegativeButton("Cancel", (dialogInterface, i) -> {
            dialogInterface.cancel();
         });
@@ -255,6 +249,7 @@ public class DiaryEntryFragment extends Fragment {
             this.baseUnitName = getContext().getString(completeFood.food.getBaseUnit().getTitleResource());
             this.editing = diaryEntryViewModel.isEditingEntry();
 
+            setupSaveButton();
             setupDeleteButton();
             setupFoodServingSizes(); // Only do this once to avoid infinite loop
             if (editing) {
@@ -268,11 +263,15 @@ public class DiaryEntryFragment extends Fragment {
         });
 
         diaryEntryViewModel.getErrorMessage().observe(this, errorMessage -> {
-            if (!(errorMessage.equals("Canceled") /*|| errorMessage.equals("timeout")*/)) {
-                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                NavController navController = NavHostFragment.findNavController(this);
-                navController.navigateUp();
-            }
+            TextView title = getView().findViewById(R.id.diaryEntryTitle);
+            title.setText(getString(R.string.diary_entry_error, errorMessage));
+
+            Button saveButton = getView().findViewById(R.id.buttonSaveToDiary);
+            saveButton.setOnClickListener(btn -> navigateUp(this));
+            saveButton.setText(getString(R.string.cancel));
+
+            Button deleteButton = getView().findViewById(R.id.buttonDeleteEntry);
+            deleteButton.setVisibility(View.GONE);
         });
     }
 
