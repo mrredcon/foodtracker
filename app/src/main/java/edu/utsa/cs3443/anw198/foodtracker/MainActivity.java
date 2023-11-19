@@ -21,7 +21,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_diary, R.id.nav_searchfood)
+                R.id.nav_home, R.id.nav_diary, R.id.nav_searchfood, R.id.nav_settings)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -134,12 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        if (item.getItemId() == R.id.action_settings) {
-            navController.navigate(R.id.nav_settings);
-            return true;
-        } else if (item.getItemId() == R.id.action_calendar) {
+        if (item.getItemId() == R.id.action_calendar) {
             Calendar cal = trackedFoodsViewModel.getDate();
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, 0,
                     (datePicker, year, month, day) -> trackedFoodsViewModel.setDateAndReloadData(year, month, day),

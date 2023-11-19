@@ -2,6 +2,7 @@ package edu.utsa.cs3443.anw198.foodtracker.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 
@@ -25,6 +27,13 @@ import edu.utsa.cs3443.anw198.foodtracker.ui.TrackedFoodsViewModel;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
+    private TrackedFoodsViewModel trackedFoodsViewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,11 +50,23 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TrackedFoodsViewModel trackedFoodsViewModel = new ViewModelProvider(getActivity()).get(TrackedFoodsViewModel.class);
+        trackedFoodsViewModel = new ViewModelProvider(getActivity()).get(TrackedFoodsViewModel.class);
         trackedFoodsViewModel.getFoods().observe(this, this::populateUI);
     }
 
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_calendar).setVisible(true);
+    }
+
     private void populateUI(LinkedHashMap<TrackedFood, CompleteFood> foods) {
+        TextView dateReadout = getView().findViewById(R.id.homeDateReadout);
+        DateFormat formatter = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault());
+
+        String formattedDate = formatter.format(trackedFoodsViewModel.getDate().getTime());
+        dateReadout.setText(formattedDate);
+
         int foodCount = 0;
         double caloriesSum = 0.0;
         double massSum = 0.0;

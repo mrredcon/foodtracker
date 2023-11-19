@@ -18,8 +18,8 @@ public class NomSettingsFragment extends PreferenceFragmentCompat {
         Preference clearSuggestions = findPreference("clear-suggestions");
         clearSuggestions.setOnPreferenceClickListener(preference -> {
             new AlertDialog.Builder(preference.getContext())
-                    .setTitle("Clear search suggestions")
-                    .setMessage("Are you sure you want to delete all saved search suggestions?")
+                    .setTitle(R.string.settings_clear_suggestions)
+                    .setMessage(R.string.settings_clear_suggestions_confirm)
                     .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(preference.getContext(),
                                 FoodSearchSuggestionProvider.AUTHORITY, FoodSearchSuggestionProvider.MODE);

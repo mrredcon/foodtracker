@@ -27,6 +27,16 @@
         android:background="@color/fda_nutrition_facts_divider_grey" />
 
     <TextView
+        android:id="@+id/homeDateReadout"
+        style="@style/prominentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fda_nutrition_facts_margin_sides"
+        android:layout_marginRight="@dimen/fda_nutrition_facts_margin_sides"
+        android:text="@string/home_date_example"
+        android:textSize="@dimen/fda_nutrition_facts_servings_per_container_size" />
+
+    <TextView
         android:id="@+id/homeFoodsTracked"
         style="@style/prominentText"
         android:layout_width="match_parent"

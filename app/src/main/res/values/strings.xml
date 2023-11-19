@@ -15,7 +15,12 @@
     <string name="menu_diary">Diary</string>
     <string name="menu_diary_entry">Diary Entry</string>
 
+    <string name="settings_clear_suggestions">Clear search suggestions</string>
+    <string name="settings_clear_suggestions_confirm">Are you sure you want to delete all saved search suggestions?</string>
+    <string name="settings_clear_suggestions_description">Permanently delete all previous search queries</string>
+
     <string name="button_calendar">Open Calendar</string>
+    <string name="home_date_example">Thursday, January 1, 1970</string>
 
     <string name="home_foods_tracked">0 foods tracked</string>
     <string name="home_foods_tracked_single">%1$d food tracked</string>
