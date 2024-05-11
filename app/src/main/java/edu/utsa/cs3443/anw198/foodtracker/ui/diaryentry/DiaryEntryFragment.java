@@ -46,7 +46,7 @@ public class DiaryEntryFragment extends Fragment {
     private AlertDialog loadFoodDialog;
     private CompleteFood completeFood;
     private String baseUnitName;
-    private Spinner dropdown;
+    private Spinner servingDropdown;
     private TrackedFoodsViewModel trackedFoodsViewModel;
     private DiaryEntryViewModel diaryEntryViewModel;
     private ServingSize selectedServingSize;
@@ -100,16 +100,36 @@ public class DiaryEntryFragment extends Fragment {
         saveButton.setText(getString(R.string.save));
     }
 
+    private void updateQuantity(String servingSizeKey, Double quantityInput) {
+        if (servingSizeKey == null) return;
+
+        TextView gramsDisplay = getView().findViewById(R.id.textViewGrams);
+
+        Double gramsInServing = getServingSizeAmount(servingSizeKey);
+        if (gramsInServing == null) return;
+
+        if (quantityInput == null) return;
+
+        double baseUnitCalc = gramsInServing * quantityInput;
+
+        String baseUnitAbv = getContext().getText(completeFood.food.getBaseUnit().getAbbreviationResource()).toString();
+
+        updateFoodInfo(quantityInput);
+        gramsDisplay.setText(baseUnitCalc + " " + baseUnitAbv);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dropdown = getView().findViewById(R.id.spinnerServingSize);
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        servingDropdown = getView().findViewById(R.id.spinnerServingSize);
+        servingDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 selectedServingSize = completeFood.servingSizes.get(position);
                 EditText quantityInput = getView().findViewById(R.id.editTextQuantity);
-                if (!editing) {
+                if (editing) {
+                    updateQuantity((String) servingDropdown.getSelectedItem(), getQuantityInput(quantityInput.getText()));
+                } else {
                     if (selectedServingSize.name.equals(baseUnitName)) {
                         quantityInput.setText(String.valueOf(Food.DEFAULT_QUANTITY));
                     } else {
@@ -131,30 +151,14 @@ public class DiaryEntryFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String key = (String) dropdown.getSelectedItem();
-                if (key == null) return;
-
-                TextView gramsDisplay = getView().findViewById(R.id.textViewGrams);
-
-                Double gramsInServing = getServingSizeAmount(key);
-                if (gramsInServing == null) return;
-
-                Double quantityInput = getQuantityInput(editable);
-                if (quantityInput == null) return;
-
-                double baseUnitCalc = gramsInServing * quantityInput;
-
-                String baseUnitAbv = getContext().getText(completeFood.food.getBaseUnit().getAbbreviationResource()).toString();
-
-                updateFoodInfo(quantityInput);
-                gramsDisplay.setText(baseUnitCalc + " " + baseUnitAbv);
+                updateQuantity((String) servingDropdown.getSelectedItem(), getQuantityInput(editable));
             }
         });
     }
 
     private Double getQuantityInput(Editable editable) {
         String quantityString = editable.toString();
-        if (quantityString.equals("")) return null;
+        if (quantityString.isEmpty()) return null;
 
         double quantityInput;
         try {
@@ -353,7 +357,7 @@ public class DiaryEntryFragment extends Fragment {
         //  and the ones contained within completeFood when using the commented out code
         //double calories = trackedFood.getMultiplier(completeFood) * completeFood.food.getCalories();
 
-        String servingSizeName = (String)dropdown.getSelectedItem();
+        String servingSizeName = (String) servingDropdown.getSelectedItem();
         ServingSize servingSize = getServingSizeByName(servingSizeName, completeFood);
         double amountConsumed = servingSize.amount * trackedFood.amount;
         double multiplier = amountConsumed / Food.DEFAULT_QUANTITY;
